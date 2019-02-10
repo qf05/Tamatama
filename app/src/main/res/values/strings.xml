@@ -6,4 +6,5 @@
     <string name="cat">CAT</string>
     <string name="dog">DOG</string>
     <string name="cthulhu">Cthulhu</string>
+    <string name="pet">pet</string>
 </resources>
