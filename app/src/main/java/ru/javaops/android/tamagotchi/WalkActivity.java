@@ -21,10 +21,10 @@ import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
 import static android.view.View.TRANSLATION_X;
 import static android.view.View.TRANSLATION_Y;
+import static ru.javaops.android.tamagotchi.MainActivity.SELECTED_PET;
 import static ru.javaops.android.tamagotchi.MainActivity.SOUND_OFF;
 
 public class WalkActivity extends AppCompatActivity {
-    public static final String INTENT_PET_TYPE = "pet_type";
 
     private int height;
     private int width;
@@ -63,7 +63,7 @@ public class WalkActivity extends AppCompatActivity {
         });
 
         petView = findViewById(R.id.petWalk);
-        PetsType pet = PetsType.valueOf(getIntent().getStringExtra(INTENT_PET_TYPE));
+        PetsType pet = PetsType.valueOf(SELECTED_PET.getType());
         switch (pet) {
             case CAT:
                 soundPool.load(WalkActivity.this, R.raw.cat, 2);

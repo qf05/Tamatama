@@ -5,48 +5,54 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import ru.javaops.android.tamagotchi.enums.PetsType;
-
-import static ru.javaops.android.tamagotchi.WalkActivity.INTENT_PET_TYPE;
+import ru.javaops.android.tamagotchi.model.Pet;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static Pet SELECTED_PET;
     public static boolean SOUND_OFF = false;
     private MenuItem soundCheckbox;
+    private TextView petName;
+    private ImageView petView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button cat = findViewById(R.id.buttonCat);
-        Button dog = findViewById(R.id.buttonDog);
-        Button cthulhu = findViewById(R.id.buttonCthulhu);
-        cat.setOnClickListener(buttonListener);
-        dog.setOnClickListener(buttonListener);
-        cthulhu.setOnClickListener(buttonListener);
+        petName = findViewById(R.id.petName);
+        petView = findViewById(R.id.petView);
     }
 
-    View.OnClickListener buttonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(MainActivity.this, WalkActivity.class);
-            switch (v.getId()) {
-                case R.id.buttonCat:
-                    intent.putExtra(INTENT_PET_TYPE, PetsType.CAT.toString());
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (SELECTED_PET != null) {
+            petName.setText(SELECTED_PET.getName());
+            switch (PetsType.valueOf(SELECTED_PET.getType())) {
+                case CAT:
+                    petView.setImageResource(R.drawable.cat_small);
                     break;
-                case R.id.buttonDog:
-                    intent.putExtra(INTENT_PET_TYPE, PetsType.DOG.toString());
+                case DOG:
+                    petView.setImageResource(R.drawable.dog_small);
                     break;
-                case R.id.buttonCthulhu:
-                    intent.putExtra(INTENT_PET_TYPE, PetsType.CTHULHU.toString());
+                case CTHULHU:
+                    petView.setImageResource(R.drawable.cthulhu_small);
                     break;
             }
+        }
+    }
+
+    public void goWalk(View view) {
+        if (SELECTED_PET != null) {
+            Intent intent = new Intent(MainActivity.this, WalkActivity.class);
             startActivity(intent);
         }
-    };
+    }
 
     public void onButtonClick(View view) {
         Intent intent = new Intent(MainActivity.this, OtherActivity.class);
