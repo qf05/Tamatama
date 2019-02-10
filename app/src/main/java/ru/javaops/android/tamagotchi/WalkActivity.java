@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -21,7 +23,11 @@ public class WalkActivity extends AppCompatActivity {
     private int thisY;
     private int nextX;
     private int nextY;
+    private float nextAngle;
+    private float angle;
     private ImageView petView;
+    private int correctorX;
+    private int correctorY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +61,19 @@ public class WalkActivity extends AppCompatActivity {
                 FrameLayout layout = findViewById(R.id.layoutWalk);
                 height = layout.getHeight() - petView.getHeight();
                 width = layout.getWidth() - petView.getWidth();
+                if (petView.getHeight() > petView.getWidth()) {
+                    correctorX = (petView.getHeight() - petView.getWidth()) / 2;
+                    correctorY = 0;
+                    width -= correctorX;
+
+                } else {
+                    correctorX = 0;
+                    correctorY = (petView.getWidth() - petView.getHeight()) / 2;
+                    height -= correctorY;
+                }
                 thisX = (int) petView.getX() + 300;
                 thisY = (int) petView.getY() + 300;
+                petView.setRotation(-90);
                 startAnimation();
             }
         });
@@ -65,16 +82,28 @@ public class WalkActivity extends AppCompatActivity {
     private void startAnimation() {
         do {
             nextX = thisX + (int) (Math.random() * width - width / 1.5);
-        } while (nextX < 0 || nextX > width);
+        } while (nextX < correctorX || nextX > width);
 
         do {
             nextY = thisY + (int) (Math.random() * height - height / 1.5);
-        } while (nextY < 0 || nextY > height);
+        } while (nextY < correctorY || nextY > height);
+
+
+        nextAngle = (float) Math.toDegrees(Math.atan2(thisY - nextY, thisX - nextX));
+        int rotationDuration = (int) Math.abs(nextAngle - angle) * 4;
+
+        final AnimationSet animationSet = new AnimationSet(true);
+        RotateAnimation rotateAnimation = new RotateAnimation(angle, nextAngle, 1, 0.5f, 1, 0.5f);
+        rotateAnimation.setDuration(rotationDuration);
 
         Animation translateAnimation = new TranslateAnimation(thisX, nextX, thisY, nextY);
         translateAnimation.setDuration((long) (Math.random() * 1000 + Math.hypot(thisX - nextX, thisY - nextY)));
-        translateAnimation.setAnimationListener(animationListener);
-        petView.startAnimation(translateAnimation);
+        translateAnimation.setStartOffset((long) (rotationDuration - rotationDuration / 3));
+
+        animationSet.addAnimation(rotateAnimation);
+        animationSet.addAnimation(translateAnimation);
+        animationSet.setAnimationListener(animationListener);
+        petView.startAnimation(animationSet);
     }
 
     Animation.AnimationListener animationListener = new Animation.AnimationListener() {
@@ -87,6 +116,7 @@ public class WalkActivity extends AppCompatActivity {
         public void onAnimationEnd(Animation animation) {
             thisX = nextX;
             thisY = nextY;
+            angle = nextAngle;
             startAnimation();
         }
 
