@@ -1,6 +1,8 @@
 package ru.javaops.android.tamagotchi;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +20,9 @@ import ru.javaops.android.tamagotchi.model.Pet;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String APP_PREFERENCES = "PREFERENCES";
+    public static final String PREFERENCES_SELECTED_PET = "SELECTED_PET";
+
     public static Pet SELECTED_PET;
     public static boolean SOUND_OFF = false;
     private MenuItem soundCheckbox;
@@ -25,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView petView;
     public static List<Pet> PETS = new ArrayList<>();
     public static DataBase db;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +40,26 @@ public class MainActivity extends AppCompatActivity {
         petView = findViewById(R.id.petView);
         db = DataBase.getAppDatabase(getApplicationContext());
         PETS = db.petDao().getAll();
+        settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (settings.contains(PREFERENCES_SELECTED_PET)) {
+            long petId = settings.getLong(PREFERENCES_SELECTED_PET, -1);
+            if (petId >= 0) {
+                SELECTED_PET = db.petDao().findById(petId);
+            }
+        }
+
+        if (PETS.size() > 0 && (SELECTED_PET == null || !PETS.contains(SELECTED_PET))) {
+            SELECTED_PET = PETS.get(0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putLong(PREFERENCES_SELECTED_PET, SELECTED_PET.getId());
+            editor.apply();
+        }
+
         if (SELECTED_PET != null) {
             petName.setText(SELECTED_PET.getName());
             switch (PetsType.valueOf(SELECTED_PET.getType())) {

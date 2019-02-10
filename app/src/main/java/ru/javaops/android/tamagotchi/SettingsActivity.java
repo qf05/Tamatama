@@ -1,6 +1,8 @@
 package ru.javaops.android.tamagotchi;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +17,9 @@ import ru.javaops.android.tamagotchi.enums.PetsType;
 import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.utils.PetUtils;
 
+import static ru.javaops.android.tamagotchi.MainActivity.APP_PREFERENCES;
 import static ru.javaops.android.tamagotchi.MainActivity.PETS;
+import static ru.javaops.android.tamagotchi.MainActivity.PREFERENCES_SELECTED_PET;
 import static ru.javaops.android.tamagotchi.MainActivity.SELECTED_PET;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -23,12 +27,14 @@ public class SettingsActivity extends AppCompatActivity {
     private EditText inputName;
     private AlertDialog dialog;
     private DataBase db;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         db = DataBase.getAppDatabase(getApplicationContext());
+        settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     public void createPet(View view) {
@@ -58,6 +64,9 @@ public class SettingsActivity extends AppCompatActivity {
                 long id = db.petDao().insert(new Pet(name, petsType));
                 PETS = db.petDao().getAll();
                 SELECTED_PET = db.petDao().findById(id);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putLong(PREFERENCES_SELECTED_PET, SELECTED_PET.getId());
+                editor.apply();
                 dialog.cancel();
                 finish();
             }
