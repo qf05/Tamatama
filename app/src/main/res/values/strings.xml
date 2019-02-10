@@ -7,4 +7,8 @@
     <string name="dog">DOG</string>
     <string name="cthulhu">Cthulhu</string>
     <string name="pet">pet</string>
+    <string name="pets">Питомцы</string>
+    <string name="notification">Уведомления</string>
+    <string name="history">История</string>
+    <string name="sound">Звук</string>
 </resources>

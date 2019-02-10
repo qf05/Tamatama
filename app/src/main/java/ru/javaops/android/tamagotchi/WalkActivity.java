@@ -21,6 +21,7 @@ import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
 import static android.view.View.TRANSLATION_X;
 import static android.view.View.TRANSLATION_Y;
+import static ru.javaops.android.tamagotchi.MainActivity.SOUND_OFF;
 
 public class WalkActivity extends AppCompatActivity {
     public static final String INTENT_PET_TYPE = "pet_type";
@@ -90,7 +91,7 @@ public class WalkActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.i("WALK", "Touch on pet");
-                    if (loadedSampleId > 0) {
+                    if (loadedSampleId > 0 && !SOUND_OFF) {
                         soundPool.play(loadedSampleId, 1f, 1f, 2, 0, 1f);
 
                     }
