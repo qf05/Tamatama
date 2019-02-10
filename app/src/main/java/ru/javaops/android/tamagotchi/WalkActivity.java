@@ -202,5 +202,12 @@ public class WalkActivity extends AppCompatActivity {
             animatorSet.cancel();
             animatorSet.end();
         }
+        finish();
+    }
+
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        finish();
     }
 }
