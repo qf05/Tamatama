@@ -1,4 +1,4 @@
-package ru.javaops.android.tamagotchi;
+package ru.javaops.android.tamagotchi.utils;
 
 import android.view.View;
 import android.view.ViewTreeObserver;

@@ -9,13 +9,15 @@ import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import ru.javaops.android.tamagotchi.enums.PetsType;
+import ru.javaops.android.tamagotchi.utils.MyImageView;
+import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
 import static android.view.View.TRANSLATION_X;
 import static android.view.View.TRANSLATION_Y;
@@ -31,7 +33,7 @@ public class WalkActivity extends AppCompatActivity {
     private int nextY;
     private float nextAngle;
     private float angle;
-    private ImageView petView;
+    private MyImageView petView;
     private int correctorX;
     private int correctorY;
     private AnimatorSet animatorSet;
@@ -54,6 +56,7 @@ public class WalkActivity extends AppCompatActivity {
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                Log.i("WALK", "Load complete");
                 loadedSampleId = sampleId;
             }
         });
@@ -81,13 +84,22 @@ public class WalkActivity extends AppCompatActivity {
                 petView.setImageResource(R.drawable.cthulhu);
                 break;
         }
-        petView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("WALK", "Touch on pet");
-                if (loadedSampleId > 0) {
-                    soundPool.play(loadedSampleId, 1f, 1f, 2, 0, 1f);
 
+        petView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Log.i("WALK", "Touch on pet");
+                    if (loadedSampleId > 0) {
+                        soundPool.play(loadedSampleId, 1f, 1f, 2, 0, 1f);
+
+                    }
+                    return true;
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    v.performClick();
+                    return false;
+                } else {
+                    return false;
                 }
             }
         });
