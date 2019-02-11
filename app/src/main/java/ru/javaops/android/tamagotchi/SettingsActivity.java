@@ -28,7 +28,7 @@ public class SettingsActivity extends AppCompatActivity {
     private EditText inputName;
     private AlertDialog dialog;
     private static DataBase db;
-    private SharedPreferences settings;
+    private static SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,35 +62,34 @@ public class SettingsActivity extends AppCompatActivity {
                 PetsType[] petsTypes = PetsType.values();
                 final PetsType petsType = petsTypes[spinnerCreate.getSelectedItemPosition()];
                 Log.i("SELECTED_PET", petsType.toString() + "   " + name);
-                savePet(name, petsType, settings);
+
+                new SaveNewPet().execute(name, petsType.toString());
                 dialog.cancel();
                 finish();
-
             }
         }
     };
 
-    private static void savePet(final String name, final PetsType petsType, final SharedPreferences settings) {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                long id = db.petDao().insert(new Pet(name, petsType));
-                PETS = db.petDao().getAll();
-                SELECTED_PET = db.petDao().findById(id);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putLong(PREFERENCES_SELECTED_PET, SELECTED_PET.getId());
-                editor.apply();
-                return null;
-            }
+    private static class SaveNewPet extends AsyncTask<String, Void, Void> {
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                if (MainActivity.handler != null) {
-                    MainActivity.handler.sendEmptyMessage(0);
-                }
+        @Override
+        protected Void doInBackground(String... strings) {
+            long id = db.petDao().insert(new Pet(strings[0], PetsType.valueOf(strings[1])));
+            PETS = db.petDao().getAll();
+            SELECTED_PET = db.petDao().findById(id);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putLong(PREFERENCES_SELECTED_PET, SELECTED_PET.getId());
+            editor.apply();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (MainActivity.handler != null) {
+                MainActivity.handler.sendEmptyMessage(0);
             }
-        };
+        }
     }
 
     View.OnClickListener cancelListener = new View.OnClickListener() {
