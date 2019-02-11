@@ -13,7 +13,7 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import ru.javaops.android.tamagotchi.adapters.PetDataBaseAdapter;
+import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.enums.PetsType;
 import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.utils.PetUtils;
@@ -27,14 +27,14 @@ public class SettingsActivity extends AppCompatActivity {
     private Spinner spinnerCreate;
     private EditText inputName;
     private AlertDialog dialog;
-    private static PetDataBaseAdapter db;
+    private static DataBase db;
     private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        db = PetDataBaseAdapter.getInstance(this);
+        db = DataBase.getAppDatabase(this);
         settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
@@ -74,9 +74,9 @@ public class SettingsActivity extends AppCompatActivity {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                long id = db.insert(new Pet(name, petsType));
-                PETS = db.getAll();
-                SELECTED_PET = db.findById(id);
+                long id = db.petDao().insert(new Pet(name, petsType));
+                PETS = db.petDao().getAll();
+                SELECTED_PET = db.petDao().findById(id);
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putLong(PREFERENCES_SELECTED_PET, SELECTED_PET.getId());
                 editor.apply();

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
-import ru.javaops.android.tamagotchi.adapters.PetDataBaseAdapter;
+import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.enums.PetsType;
 import ru.javaops.android.tamagotchi.model.Pet;
 
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView petName;
     private ImageView petView;
     public static List<Pet> PETS = new ArrayList<>();
-    public static PetDataBaseAdapter db;
+    public static DataBase db;
     private SharedPreferences settings;
     public static Handler handler;
     private static long selectedPetId;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         petView = findViewById(R.id.petView);
 
         settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        db = PetDataBaseAdapter.getInstance(this);
+        db = DataBase.getAppDatabase(this);
         if (settings.contains(PREFERENCES_SELECTED_PET)) {
             selectedPetId = settings.getLong(PREFERENCES_SELECTED_PET, -1);
         }
@@ -130,9 +130,9 @@ public class MainActivity extends AppCompatActivity {
     private static class UpdateView extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... voids) {
-            PETS = db.getAll();
+            PETS = db.petDao().getAll();
             if (selectedPetId >= 0) {
-                SELECTED_PET = db.findById(selectedPetId);
+                SELECTED_PET = db.petDao().findById(selectedPetId);
             }
             return null;
         }

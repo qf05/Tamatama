@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.javaops.android.tamagotchi.adapters.ChangeRVAdapter;
-import ru.javaops.android.tamagotchi.adapters.PetDataBaseAdapter;
+import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.model.Pet;
 
 import static ru.javaops.android.tamagotchi.MainActivity.APP_PREFERENCES;
@@ -31,7 +31,7 @@ public class ChangePetActivity extends AppCompatActivity implements ChangeRVAdap
 
     private ChangeRVAdapter adapter;
     private static List<Pet> pets = new ArrayList<>();
-    private static PetDataBaseAdapter db;
+    private static DataBase db;
     private static Handler handler;
 
     @Override
@@ -46,7 +46,7 @@ public class ChangePetActivity extends AppCompatActivity implements ChangeRVAdap
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rv.getContext(),
                 llm.getOrientation());
         rv.addItemDecoration(dividerItemDecoration);
-        db = PetDataBaseAdapter.getInstance(this);
+        db = DataBase.getAppDatabase(this);
         adapter = new ChangeRVAdapter(ChangePetActivity.this, pets);
         adapter.setClickListener(ChangePetActivity.this);
         rv.setAdapter(adapter);
@@ -76,7 +76,7 @@ public class ChangePetActivity extends AppCompatActivity implements ChangeRVAdap
 
         @Override
         protected Void doInBackground(Void... voids) {
-            List<Pet> petList = db.getAll();
+            List<Pet> petList = db.petDao().getAll();
             pets.clear();
             pets.addAll(petList);
             return null;
