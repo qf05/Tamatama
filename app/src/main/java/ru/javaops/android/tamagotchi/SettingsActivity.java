@@ -3,6 +3,7 @@ package ru.javaops.android.tamagotchi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import ru.javaops.android.tamagotchi.db.DataBase;
+import ru.javaops.android.tamagotchi.adapters.PetDataBaseAdapter;
 import ru.javaops.android.tamagotchi.enums.PetsType;
 import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.utils.PetUtils;
@@ -26,14 +27,14 @@ public class SettingsActivity extends AppCompatActivity {
     private Spinner spinnerCreate;
     private EditText inputName;
     private AlertDialog dialog;
-    private DataBase db;
+    private static PetDataBaseAdapter db;
     private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        db = DataBase.getAppDatabase(getApplicationContext());
+        db = PetDataBaseAdapter.getInstance(this);
         settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
@@ -53,25 +54,44 @@ public class SettingsActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    View.OnClickListener okCreateListener = new View.OnClickListener() {
+    final View.OnClickListener okCreateListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String name = inputName.getText().toString().trim();
+            final String name = inputName.getText().toString().trim();
             if (PetUtils.checkName(SettingsActivity.this, name)) {
                 PetsType[] petsTypes = PetsType.values();
-                PetsType petsType = petsTypes[spinnerCreate.getSelectedItemPosition()];
+                final PetsType petsType = petsTypes[spinnerCreate.getSelectedItemPosition()];
                 Log.i("SELECTED_PET", petsType.toString() + "   " + name);
-                long id = db.petDao().insert(new Pet(name, petsType));
-                PETS = db.petDao().getAll();
-                SELECTED_PET = db.petDao().findById(id);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putLong(PREFERENCES_SELECTED_PET, SELECTED_PET.getId());
-                editor.apply();
+                savePet(name, petsType, settings);
                 dialog.cancel();
                 finish();
+
             }
         }
     };
+
+    private static void savePet(final String name, final PetsType petsType, final SharedPreferences settings) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                long id = db.insert(new Pet(name, petsType));
+                PETS = db.getAll();
+                SELECTED_PET = db.findById(id);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putLong(PREFERENCES_SELECTED_PET, SELECTED_PET.getId());
+                editor.apply();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                if (MainActivity.handler != null) {
+                    MainActivity.handler.sendEmptyMessage(0);
+                }
+            }
+        };
+    }
 
     View.OnClickListener cancelListener = new View.OnClickListener() {
         @Override

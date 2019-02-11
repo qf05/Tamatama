@@ -92,7 +92,7 @@
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/toHomeFromWalk"
+        android:id="@+id/back"
         android:onClick="goBack"
         android:layout_width="50dp"
         android:layout_height="50dp"

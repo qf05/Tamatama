@@ -79,7 +79,7 @@
         android:src="@drawable/tv02" />
 
     <ImageButton
-        android:id="@+id/toHomeFromWalk"
+        android:id="@+id/toBackFromWalk"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
