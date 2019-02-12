@@ -17,7 +17,7 @@
 - Применить HW_1_1_buttons.patch (apply + commit)
 - Применить HW_1_2_walk_activity_and_animation.patch (apply + commit)
 
-## ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 3. Rotate, ObjectAnimator, TouchListener
+## ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 2. Rotate, ObjectAnimator, TouchListener
 
 - Применить HW_1_3_optional_rotate.patch (apply + commit)
 - Применить HW_1_4_optional_sound_on_click.patch (apply + commit)
@@ -26,7 +26,7 @@
 ---
 
 
-#Lesson 2
+# Lesson 2
 
 ## ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 1. Меню
 
