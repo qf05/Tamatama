@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import ru.javaops.android.tamagotchi.enums.PetsType;
+import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.utils.MyImageView;
 import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
@@ -24,8 +25,8 @@ import static android.view.View.TRANSLATION_Y;
 import static ru.javaops.android.tamagotchi.MainActivity.SOUND_OFF;
 
 public class WalkActivity extends AppCompatActivity {
-    public static final String INTENT_PET_TYPE = "pet_type";
 
+    public static final String INTENT_PET_TO_WALK = "pet_to_walk";
     private int height;
     private int width;
     private int thisX;
@@ -63,8 +64,8 @@ public class WalkActivity extends AppCompatActivity {
         });
 
         petView = findViewById(R.id.petWalk);
-        PetsType pet = PetsType.valueOf(getIntent().getStringExtra(INTENT_PET_TYPE));
-        switch (pet) {
+        Pet pet = (Pet) getIntent().getSerializableExtra(INTENT_PET_TO_WALK);
+        switch (PetsType.valueOf(pet.getType())) {
             case CAT:
                 soundPool.load(WalkActivity.this, R.raw.cat, 2);
                 petView.setImageResource(R.drawable.cat);
