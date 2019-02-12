@@ -4,9 +4,15 @@ import android.content.Context;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
-public class PetUtils {
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+import ru.javaops.android.tamagotchi.model.Pet;
+
+public class PetUtils extends ViewModel {
+
 
     public static boolean checkName(Context context, String name) {
         if (name.isEmpty() || name.replace(" ", "").isEmpty()) {
@@ -35,4 +41,24 @@ public class PetUtils {
             }
         }
     }
+
+
+    private MutableLiveData<Pet> currentPet;
+
+    public MutableLiveData<Pet> getCurrentPet() {
+        if (currentPet == null) {
+            currentPet = new MutableLiveData<Pet>();
+        }
+        return currentPet;
+    }
+
+    private MutableLiveData<List<Pet>> pets;
+
+    public MutableLiveData<List<Pet>> getPets() {
+        if (pets == null) {
+            pets = new MutableLiveData<List<Pet>>();
+        }
+        return pets;
+    }
+
 }

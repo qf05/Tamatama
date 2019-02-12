@@ -3,24 +3,24 @@ package ru.javaops.android.tamagotchi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.enums.PetsType;
 import ru.javaops.android.tamagotchi.model.Pet;
+import ru.javaops.android.tamagotchi.utils.PetUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageView petView;
     public static List<Pet> PETS = new ArrayList<>();
     public static DataBase db;
-    private SharedPreferences settings;
-    public static Handler handler;
+    private static SharedPreferences settings;
     private static long selectedPetId;
+    private static PetUtils mainPetView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,27 +47,39 @@ public class MainActivity extends AppCompatActivity {
 
         settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         db = DataBase.getAppDatabase(this);
-        if (settings.contains(PREFERENCES_SELECTED_PET)) {
-            selectedPetId = settings.getLong(PREFERENCES_SELECTED_PET, -1);
-        }
-        new UpdateView().execute();
+
+        mainPetView = ViewModelProviders.of(this).get(PetUtils.class);
+        mainPetView.getCurrentPet().observe(this, new Observer<Pet>() {
+            @Override
+            public void onChanged(@Nullable final Pet pet) {
+                SELECTED_PET = pet;
+                updateView();
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        handler = new MyHandler(this);
-        handler.sendEmptyMessage(0);
+        new Runnable() {
+            @Override
+            public void run() {
+                if (settings.contains(PREFERENCES_SELECTED_PET)) {
+                    selectedPetId = settings.getLong(PREFERENCES_SELECTED_PET, -1);
+                }
+                //TODO
+                PETS = db.petDao().getAll();
+                Pet pet = null;
+                if (selectedPetId >= 0) {
+                    pet = db.petDao().findById(selectedPetId);
+                }
+                mainPetView.getCurrentPet().postValue(pet);
+            }
+        }.run();
+//        new UpdateView().execute();
     }
 
     private void updateView() {
-        if (PETS.size() > 0 && (SELECTED_PET == null || !PETS.contains(SELECTED_PET))) {
-            SELECTED_PET = PETS.get(0);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putLong(PREFERENCES_SELECTED_PET, SELECTED_PET.getId());
-            editor.apply();
-        }
-
         if (SELECTED_PET != null) {
             petName.setText(SELECTED_PET.getName());
             switch (PetsType.valueOf(SELECTED_PET.getType())) {
@@ -127,46 +139,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private static class UpdateView extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... voids) {
-            PETS = db.petDao().getAll();
-            if (selectedPetId >= 0) {
-                SELECTED_PET = db.petDao().findById(selectedPetId);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            if (handler != null) {
-                handler.sendEmptyMessage(0);
-            }
-        }
-    }
+//    public static class UpdateView extends AsyncTask<Void, Void, Void> {
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//
+//        }
+//    }
 
     @Override
     protected void onStop() {
         super.onStop();
-        handler = null;
     }
 
-    private static class MyHandler extends Handler {
-
-        WeakReference<MainActivity> wrActivity;
-
-        private MyHandler(MainActivity activity) {
-            wrActivity = new WeakReference<>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            MainActivity activity = wrActivity.get();
-            if (activity != null) {
-                activity.updateView();
-            }
-        }
-    }
+//    private static class MyHandler extends Handler {
+//
+//        WeakReference<MainActivity> wrActivity;
+//
+//        private MyHandler(MainActivity activity) {
+//            wrActivity = new WeakReference<>(activity);
+//        }
+//
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            MainActivity activity = wrActivity.get();
+//            if (activity != null) {
+//                activity.updateView();
+//            }
+//        }
+//    }
 }

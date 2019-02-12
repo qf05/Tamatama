@@ -3,24 +3,26 @@ package ru.javaops.android.tamagotchi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.javaops.android.tamagotchi.adapters.ChangeRVAdapter;
 import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.model.Pet;
+import ru.javaops.android.tamagotchi.utils.PetUtils;
 
 import static ru.javaops.android.tamagotchi.MainActivity.APP_PREFERENCES;
 import static ru.javaops.android.tamagotchi.MainActivity.PREFERENCES_SELECTED_PET;
@@ -30,15 +32,13 @@ import static ru.javaops.android.tamagotchi.MainActivity.SELECTED_PET;
 public class ChangePetActivity extends AppCompatActivity implements ChangeRVAdapter.ItemClickListener {
 
     private ChangeRVAdapter adapter;
-    private static List<Pet> pets = new ArrayList<>();
     private static DataBase db;
-    private static Handler handler;
+    private static PetUtils listProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_pet);
-        handler = new ChangePetHandler(this);
         final RecyclerView rv = findViewById(R.id.change_rv);
         rv.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(ChangePetActivity.this);
@@ -47,10 +47,32 @@ public class ChangePetActivity extends AppCompatActivity implements ChangeRVAdap
                 llm.getOrientation());
         rv.addItemDecoration(dividerItemDecoration);
         db = DataBase.getAppDatabase(this);
-        adapter = new ChangeRVAdapter(ChangePetActivity.this, pets);
+
+        listProvider = ViewModelProviders.of(this).get(PetUtils.class);
+        listProvider.getPets().observe(this, new Observer<List<Pet>>() {
+            @Override
+            public void onChanged(@Nullable final List<Pet> pets) {
+                adapter.changeList(pets);
+            }
+        });
+
+        adapter = new ChangeRVAdapter(ChangePetActivity.this, new ArrayList<Pet>());
         adapter.setClickListener(ChangePetActivity.this);
         rv.setAdapter(adapter);
-        new LoadList().execute();
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(4000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                listProvider.getPets().postValue(db.petDao().getAll());
+            }
+        });
+//        new LoadList().execute();
     }
 
     @Override
@@ -72,49 +94,12 @@ public class ChangePetActivity extends AppCompatActivity implements ChangeRVAdap
         finish();
     }
 
-    private static class LoadList extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            List<Pet> petList = db.petDao().getAll();
-            pets.clear();
-            pets.addAll(petList);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            if (handler != null) {
-                handler.sendEmptyMessage(0);
-            }
-        }
-    }
-
-    private void updateList() {
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        handler = null;
-    }
-
-    private static class ChangePetHandler extends Handler {
-        WeakReference<ChangePetActivity> wrActivity;
-
-        private ChangePetHandler(ChangePetActivity activity) {
-            wrActivity = new WeakReference<>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            ChangePetActivity activity = wrActivity.get();
-            if (activity != null) {
-                activity.updateList();
-            }
-        }
-    }
+//    private static class LoadList extends AsyncTask<Void, Void, Void> {
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            listProvider.getPets().postValue(db.petDao().getAll());
+//            return null;
+//        }
+//    }
 }

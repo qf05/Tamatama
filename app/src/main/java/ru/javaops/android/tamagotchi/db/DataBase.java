@@ -30,6 +30,7 @@ public abstract class DataBase extends RoomDatabase {
                 if (localInstance == null) {
                     DB_INSTANCE = Room.databaseBuilder(context.getApplicationContext(), DataBase.class, "database-name")
                             .fallbackToDestructiveMigration()
+                            .allowMainThreadQueries()
                             .build();
                     //Room.inMemoryDatabaseBuilder(context.getApplicationContext(),AppDatabase.class).allowMainThreadQueries().build();
                 }

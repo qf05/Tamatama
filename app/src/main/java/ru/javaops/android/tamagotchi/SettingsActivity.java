@@ -3,13 +3,14 @@ package ru.javaops.android.tamagotchi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import java.util.concurrent.Callable;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,9 +20,7 @@ import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.utils.PetUtils;
 
 import static ru.javaops.android.tamagotchi.MainActivity.APP_PREFERENCES;
-import static ru.javaops.android.tamagotchi.MainActivity.PETS;
 import static ru.javaops.android.tamagotchi.MainActivity.PREFERENCES_SELECTED_PET;
-import static ru.javaops.android.tamagotchi.MainActivity.SELECTED_PET;
 
 public class SettingsActivity extends AppCompatActivity {
     private Spinner spinnerCreate;
@@ -29,6 +28,7 @@ public class SettingsActivity extends AppCompatActivity {
     private AlertDialog dialog;
     private static DataBase db;
     private static SharedPreferences settings;
+//    private static PetUtils petUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,20 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         db = DataBase.getAppDatabase(this);
         settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+
+//        petUtils = ViewModelProviders.of(this).get(PetUtils.class);
+//        // Create the observer which updates the UI.
+//        final Observer<Pet> nameObserver = new Observer<Pet>() {
+//            @Override
+//            public void onChanged(@Nullable final Pet pet) {
+//                // Update the UI, in this case, a TextView.
+//                SELECTED_PET = pet;
+//                updateView();
+//            }
+//        };
+//        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+//        petUtils.getCurrentPet().observe(this, nameObserver);
+
     }
 
     public void createPet(View view) {
@@ -63,34 +77,49 @@ public class SettingsActivity extends AppCompatActivity {
                 final PetsType petsType = petsTypes[spinnerCreate.getSelectedItemPosition()];
                 Log.i("SELECTED_PET", petsType.toString() + "   " + name);
 
-                new SaveNewPet().execute(name, petsType.toString());
+//                new SaveNewPet().execute(name, petsType.toString());
+                try {
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putLong(PREFERENCES_SELECTED_PET, new Callable<Long>() {
+                        @Override
+                        public Long call() {
+                            try {
+                                Thread.sleep(4000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            return db.petDao().insert(new Pet(name, petsType));
+                        }
+                    }.call());
+                    editor.apply();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 dialog.cancel();
                 finish();
             }
         }
     };
 
-    private static class SaveNewPet extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            long id = db.petDao().insert(new Pet(strings[0], PetsType.valueOf(strings[1])));
-            PETS = db.petDao().getAll();
-            SELECTED_PET = db.petDao().findById(id);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putLong(PREFERENCES_SELECTED_PET, SELECTED_PET.getId());
-            editor.apply();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            if (MainActivity.handler != null) {
-                MainActivity.handler.sendEmptyMessage(0);
-            }
-        }
-    }
+//    private static class SaveNewPet extends AsyncTask<String, Void, Void> {
+//
+//        @Override
+//        protected Void doInBackground(String... strings) {
+//            long id = db.petDao().insert(new Pet(strings[0], PetsType.valueOf(strings[1])));
+////            PETS = db.petDao().getAll();
+////            SELECTED_PET = db.petDao().findById(id);
+//            SharedPreferences.Editor editor = settings.edit();
+//            editor.putLong(PREFERENCES_SELECTED_PET, id);
+//            editor.apply();
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            new MainActivity.UpdateView().execute();
+//        }
+//    }
 
     View.OnClickListener cancelListener = new View.OnClickListener() {
         @Override

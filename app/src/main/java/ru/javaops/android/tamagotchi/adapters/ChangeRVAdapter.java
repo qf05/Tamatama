@@ -28,6 +28,11 @@ public class ChangeRVAdapter extends RecyclerView.Adapter<ChangeRVAdapter.PetVie
         this.pets = pets;
     }
 
+    public void changeList(List<Pet> pets) {
+        this.pets = pets;
+        notifyDataSetChanged();
+    }
+
     public static class PetViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         CardView cv;
         TextView petName;
