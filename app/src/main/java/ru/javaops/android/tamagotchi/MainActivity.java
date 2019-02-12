@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem soundCheckbox;
     private TextView petName;
     private ImageView petView;
-    public static DataBase db;
+    private static DataBase db;
     private SharedPreferences settings;
 
     @Override

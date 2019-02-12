@@ -24,6 +24,7 @@
         <activity android:name=".OtherActivity" />
         <activity android:name=".WalkActivity" />
         <activity android:name=".SettingsActivity" />
+        <activity android:name=".ChangePetActivity" />
     </application>
 
 </manifest>
