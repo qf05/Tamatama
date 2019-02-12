@@ -67,11 +67,17 @@ public class MainActivity extends AppCompatActivity {
                 if (settings.contains(PREFERENCES_SELECTED_PET)) {
                     selectedPetId = settings.getLong(PREFERENCES_SELECTED_PET, -1);
                 }
-                //TODO
-                PETS = db.petDao().getAll();
                 Pet pet = null;
                 if (selectedPetId >= 0) {
                     pet = db.petDao().findById(selectedPetId);
+                    if (pet == null) {
+                        pet = db.petDao().findAny();
+                        if (pet != null) {
+                            SharedPreferences.Editor editor = settings.edit();
+                            editor.putLong(PREFERENCES_SELECTED_PET, pet.getId());
+                            editor.apply();
+                        }
+                    }
                 }
                 mainPetView.getCurrentPet().postValue(pet);
             }

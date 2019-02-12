@@ -18,6 +18,9 @@ public interface PetDao {
     @Query("SELECT * FROM pet WHERE id LIKE :id LIMIT 1")
     Pet findById(long id);
 
+    @Query("SELECT * FROM pet LIMIT 1")
+    Pet findAny();
+
     @Insert
     long insert(Pet pet);
 
