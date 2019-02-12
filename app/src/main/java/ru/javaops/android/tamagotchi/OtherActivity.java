@@ -22,6 +22,7 @@ public class OtherActivity extends AppCompatActivity {
     private float height;
     private int width;
     private float yDelta;
+    private AnimationSet animationSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +34,13 @@ public class OtherActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(OtherActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
         textView = findViewById(R.id.hello);
         final Animation helloAnimation = AnimationUtils.loadAnimation(this, R.anim.hello);
-        final AnimationSet animationSet = new AnimationSet(true);
+        animationSet = new AnimationSet(true);
         final FrameLayout frameLayout = findViewById(R.id.layout);
         // http://poetofcode.ru/programming/2017/06/12/kak-opredelit-nachalnyue-razmeryu-view-v-android.html
         ViewHelper.executeAfterViewHasDrawn(textView, new Runnable() {
@@ -96,5 +98,14 @@ public class OtherActivity extends AppCompatActivity {
         translateAnimation.setDuration(2000 / countAnimationRepeat);
         translateAnimation.setAnimationListener(animationListener);
         textView.startAnimation(translateAnimation);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (animationSet != null) {
+            animationSet.cancel();
+        }
+        finish();
     }
 }
