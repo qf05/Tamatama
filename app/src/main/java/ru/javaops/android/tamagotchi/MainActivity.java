@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.enums.PetsType;
 import ru.javaops.android.tamagotchi.model.Pet;
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem soundCheckbox;
     private TextView petName;
     private ImageView petView;
+    public static DataBase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         petName = findViewById(R.id.petName);
         petView = findViewById(R.id.petView);
+        db = DataBase.getAppDatabase(getApplicationContext());
+        selectedPet = db.petDao().findAny();
     }
 
     @Override
