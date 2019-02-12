@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
 public class OtherActivity extends AppCompatActivity {
 
