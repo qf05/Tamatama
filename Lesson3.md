@@ -5,7 +5,7 @@
 
 ---
 
-## [Материалы занятия]()
+## [Материалы занятия](https://drive.google.com/open?id=1pGXpoTezNZonR7LNAF6DZE7as6KOBlfo)
 
 ---
 

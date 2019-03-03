@@ -107,7 +107,7 @@
 - Дизайн должен быть в стиле activity_change_pet.
 - В этом активити должен отображаться список всех питомцев.
 - Добавить в каждую строку CheckBox.
-- Добавить кнопку для удаления питомцев.
+- Добавить кнопку для удаления питомцев, расположить её в ActionBar DeletePetActivity.
 - По нажатию этой кнопки должно вызываться диалоговое окно для подтверждения действия. 
     - Диалоговое окно должно содержать две кнопки Ok и Cancel.
     - Дизайн диалогового окна должен быть в стиле dialog_create_pet.
@@ -120,12 +120,15 @@
 
 6. Optional
 Реализовать сортировку питомцев по имени и уровню для ChangePetActivity и DeletePetActivity.
+- При сортировке по уровню, если уровень у питомцев одинаковый, то отсортировать их по имени.
+- При сортировке по имени, если имя у питомцев одинаковое, то отсортировать их по уровню.
 ```
 
-#### Подсказки к HW2
+#### Подсказки к HW_2
 
 - В задании 1 использовать SharedPreferences
 - Взаимосвязи - [Room: Хранение данных на Android для всех и каждого](https://habr.com/ru/post/336196/) 
+- Стандартная иконка мусорного ведра: @android:drawable/ic_menu_delete
 - [CheckBox (Флажок)](http://developer.alexanderklimov.ru/android/views/checkbox.php)
 - [How does notifyDataSetChanged() method work](https://stackoverflow.com/questions/12229817/android-how-does-notifydatasetchanged-method-and-listviews-work)
 
