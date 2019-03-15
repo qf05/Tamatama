@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutWalk"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WalkActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fon_walk"
+        android:contentDescription="@string/background" />
+
+    <ImageView
+        android:id="@+id/petWalk"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:contentDescription="@string/pet" />
+
+    <ImageButton
+        android:id="@+id/toHomeFromWalk"
+        android:onClick="goHome"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginBottom="1dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/home"
+        android:contentDescription="@string/to_home" />
+</FrameLayout>
