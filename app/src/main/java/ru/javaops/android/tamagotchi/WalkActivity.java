@@ -1,18 +1,22 @@
 package ru.javaops.android.tamagotchi;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.RotateAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import ru.javaops.android.tamagotchi.enums.PetsType;
+
+import static android.view.View.TRANSLATION_X;
+import static android.view.View.TRANSLATION_Y;
 
 public class WalkActivity extends AppCompatActivity {
     public static final String INTENT_PET_TYPE = "pet_type";
@@ -31,9 +35,10 @@ public class WalkActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk);
+        SoundHelper.initialSoundPool(getApplicationContext());
         petView = findViewById(R.id.petWalk);
-        PetsType pet = PetsType.valueOf(getIntent().getStringExtra(INTENT_PET_TYPE));
-        switch (pet) {
+        final PetsType petsType = PetsType.valueOf(getIntent().getStringExtra(INTENT_PET_TYPE));
+        switch (petsType) {
             case CAT:
                 petView.setImageResource(R.drawable.cat);
                 break;
@@ -48,6 +53,13 @@ public class WalkActivity extends AppCompatActivity {
                 petView.setImageResource(R.drawable.cthulhu);
                 break;
         }
+        petView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("WALK", "Touch on pet");
+                SoundHelper.play(petsType);
+            }
+        });
 
         ViewHelper.executeAfterViewHasDrawn(petView, new Runnable() {
             @Override
@@ -55,10 +67,14 @@ public class WalkActivity extends AppCompatActivity {
                 FrameLayout layout = findViewById(R.id.layoutWalk);
                 height = layout.getHeight() - Math.max(petView.getHeight(), petView.getWidth());
                 width = layout.getWidth() - Math.max(petView.getHeight(), petView.getWidth());
-                thisX = height / 2;
-                thisY = width / 2;
-                petView.setRotation(-90);
-                startAnimation();
+                nextX = width / 2;
+                nextY = height / 2;
+                petView.setX(nextX);
+                petView.setY(nextY);
+                ObjectAnimator rotate = ObjectAnimator.ofFloat(petView, View.ROTATION, -90);
+                rotate.setDuration(1);
+                rotate.addListener(aListener);
+                rotate.start();
             }
         });
     }
@@ -76,29 +92,32 @@ public class WalkActivity extends AppCompatActivity {
 
         nextAngle = (float) Math.toDegrees(Math.atan2(thisY - nextY, thisX - nextX));
         int rotationDuration = (int) (Math.random() * 500 + Math.abs(nextAngle - angle) * 3);
+        int time = (int) (Math.random() * 1000 + 300 + ViewHelper.pxToDp(distance) * 3);
 
-        final AnimationSet animationSet = new AnimationSet(true);
-        RotateAnimation rotateAnimation = new RotateAnimation(angle, nextAngle, 1, 0.5f, 1, 0.5f);
-        rotateAnimation.setDuration(rotationDuration);
+        ObjectAnimator rotate = ObjectAnimator.ofFloat(petView, View.ROTATION, nextAngle - 90);
+        rotate.setDuration(rotationDuration);
 
-        Animation translateAnimation = new TranslateAnimation(thisX, nextX, thisY, nextY);
-        translateAnimation.setDuration((long) (Math.random() * 1000 + 300 + ViewHelper.pxToDp(distance) * 3));
-        translateAnimation.setStartOffset((long) (rotationDuration - rotationDuration / 3));
+        // https://stackoverflow.com/questions/28352352/change-multiple-properties-with-single-objectanimator
+        PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat(TRANSLATION_X, nextX);
+        PropertyValuesHolder pvhY = PropertyValuesHolder.ofFloat(TRANSLATION_Y, nextY);
+        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(petView, pvhX, pvhY);
+        animator.setDuration(time);
+        animator.setStartDelay(rotationDuration - rotationDuration / 3);
 
-        animationSet.addAnimation(rotateAnimation);
-        animationSet.addAnimation(translateAnimation);
-        animationSet.setAnimationListener(animationListener);
-        petView.startAnimation(animationSet);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(rotate, animator);
+        animatorSet.addListener(aListener);
+        animatorSet.start();
     }
 
-    Animation.AnimationListener animationListener = new Animation.AnimationListener() {
+    Animator.AnimatorListener aListener = new Animator.AnimatorListener() {
         @Override
-        public void onAnimationStart(Animation animation) {
+        public void onAnimationStart(Animator animation) {
 
         }
 
         @Override
-        public void onAnimationEnd(Animation animation) {
+        public void onAnimationEnd(Animator animation) {
             thisX = nextX;
             thisY = nextY;
             angle = nextAngle;
@@ -106,7 +125,12 @@ public class WalkActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onAnimationRepeat(Animation animation) {
+        public void onAnimationCancel(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
 
         }
     };
