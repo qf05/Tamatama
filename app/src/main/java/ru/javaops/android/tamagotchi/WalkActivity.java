@@ -7,13 +7,16 @@ import android.animation.PropertyValuesHolder;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import ru.javaops.android.tamagotchi.enums.PetsType;
+import ru.javaops.android.tamagotchi.utils.MyImageView;
+import ru.javaops.android.tamagotchi.utils.SoundHelper;
+import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
 import static android.view.View.TRANSLATION_X;
 import static android.view.View.TRANSLATION_Y;
@@ -21,7 +24,7 @@ import static android.view.View.TRANSLATION_Y;
 public class WalkActivity extends AppCompatActivity {
     public static final String INTENT_PET_TYPE = "pet_type";
 
-    private ImageView petView;
+    private MyImageView petView;
     private int height;
     private int width;
     private int thisX;
@@ -53,11 +56,20 @@ public class WalkActivity extends AppCompatActivity {
                 petView.setImageResource(R.drawable.cthulhu);
                 break;
         }
-        petView.setOnClickListener(new View.OnClickListener() {
+
+        petView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                Log.i("WALK", "Touch on pet");
-                SoundHelper.play(petsType);
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Log.i("WALK", "Touch on pet");
+                    SoundHelper.play(petsType);
+                    return true;
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    v.performClick();
+                    return false;
+                } else {
+                    return false;
+                }
             }
         });
 

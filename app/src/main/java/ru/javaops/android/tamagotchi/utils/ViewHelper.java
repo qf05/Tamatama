@@ -1,4 +1,4 @@
-package ru.javaops.android.tamagotchi;
+package ru.javaops.android.tamagotchi.utils;
 
 import android.content.res.Resources;
 import android.view.View;

@@ -1,4 +1,4 @@
-package ru.javaops.android.tamagotchi;
+package ru.javaops.android.tamagotchi.utils;
 
 import android.content.Context;
 import android.media.AudioAttributes;
@@ -7,6 +7,7 @@ import android.util.SparseBooleanArray;
 
 import java.util.EnumMap;
 
+import ru.javaops.android.tamagotchi.R;
 import ru.javaops.android.tamagotchi.enums.PetsType;
 
 public class SoundHelper {
