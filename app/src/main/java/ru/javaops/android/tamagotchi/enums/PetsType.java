@@ -1,5 +1,6 @@
 package ru.javaops.android.tamagotchi.enums;
 
+import androidx.annotation.DrawableRes;
 import ru.javaops.android.tamagotchi.R;
 
 public enum PetsType {
@@ -9,7 +10,7 @@ public enum PetsType {
 
     private final int drawableResource;
 
-    PetsType(int drawableResource) {
+    PetsType(@DrawableRes int drawableResource) {
         this.drawableResource = drawableResource;
     }
 
