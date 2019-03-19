@@ -10,22 +10,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/fon_walk"
+        android:src="@drawable/bg_walk"
         android:contentDescription="@string/background" />
 
-    <ru.javaops.android.tamagotchi.utils.MyImageView
-        android:id="@+id/petWalk"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+    <ImageView
+        android:id="@+id/image_pet"
+        android:layout_width="@dimen/pet_size"
+        android:layout_height="@dimen/pet_size"
         android:contentDescription="@string/pet" />
 
     <ImageButton
-        android:id="@+id/toHomeFromWalk"
+        android:id="@+id/button_home"
         android:onClick="goHome"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginBottom="1dp"
+        android:layout_width="@dimen/home_btn_size"
+        android:layout_height="@dimen/home_btn_size"
+        android:layout_margin="@dimen/home_button_margin"
         android:layout_gravity="bottom"
         android:background="@drawable/home"
         android:contentDescription="@string/to_home" />

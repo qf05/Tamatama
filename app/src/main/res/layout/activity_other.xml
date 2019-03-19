@@ -9,26 +9,26 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/background"
         android:scaleType="centerCrop"
-        android:src="@drawable/fon_walk"
-        android:contentDescription="@string/background" />
+        android:src="@drawable/bg_walk" />
 
     <TextView
-        android:id="@+id/hello"
+        android:id="@+id/title_hello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/hello"
         android:textColor="@color/red"
-        android:textSize="40sp"
+        android:textSize="@dimen/title_hello_other"
         android:textStyle="bold" />
 
     <ImageButton
-        android:id="@+id/toHome"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="1dp"
+        android:id="@+id/button_home"
+        android:layout_width="@dimen/home_btn_size"
+        android:layout_height="@dimen/home_btn_size"
         android:layout_gravity="bottom"
+        android:layout_margin="@dimen/home_button_margin"
         android:background="@drawable/home"
         android:contentDescription="@string/to_home" />
 </FrameLayout>

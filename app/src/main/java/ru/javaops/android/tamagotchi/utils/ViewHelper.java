@@ -6,20 +6,20 @@ import android.view.ViewTreeObserver;
 
 public class ViewHelper {
 
-    public static void executeAfterViewHasDrawn(final View v, final Runnable cb) {
-        ViewTreeObserver vto = v.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+    public static void executeAfterViewDrawing(final View view, final Runnable runnable) {
+        ViewTreeObserver observer = view.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
             @Override
             public void onGlobalLayout() {
-                cb.run();
-                ViewTreeObserver obs = v.getViewTreeObserver();
+                runnable.run();
+                ViewTreeObserver obs = view.getViewTreeObserver();
                 obs.removeOnGlobalLayoutListener(this);
             }
         });
     }
 
-    public static int pxToDp(int px) {
+    public static int pxToDp(final int px) {
         return (int) (px / Resources.getSystem().getDisplayMetrics().density);
     }
 }

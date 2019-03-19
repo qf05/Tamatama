@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,65 +8,57 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/background"
         android:scaleType="centerCrop"
-        android:src="@drawable/android_background"
-        android:contentDescription="@string/background" />
+        android:src="@drawable/android_background" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/main_margin"
         android:gravity="center"
         android:text="@string/hello"
         android:textColor="@color/white"
-        android:textSize="50sp"
+        android:textSize="@dimen/title_hello_main"
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_gravity="bottom"
+        android:id="@+id/button_hello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/main_margin"
         android:onClick="onButtonClick"
         android:text="@string/hello" />
 
-    <LinearLayout
+    <Button
+        android:id="@+id/button_cat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:orientation="vertical">
+        android:onClick="onButtonClick"
+        android:text="@string/cat" />
 
-        <Button
-            android:id="@+id/buttonCat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:onClick="onButtonClick"
-            android:text="@string/cat" />
+    <Button
+        android:id="@+id/button_dog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_cat"
+        android:layout_margin="@dimen/main_margin"
+        android:layout_toStartOf="@id/button_cat"
+        android:onClick="onButtonClick"
+        android:text="@string/dog" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/buttonDog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:onClick="onButtonClick"
-                android:text="@string/dog" />
-
-            <Button
-                android:id="@+id/buttonCthulhu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:onClick="onButtonClick"
-                android:text="@string/cthulhu" />
-
-        </LinearLayout>
-    </LinearLayout>
-</FrameLayout>
+    <Button
+        android:id="@+id/button_cthulhu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_cat"
+        android:layout_margin="@dimen/main_margin"
+        android:layout_toEndOf="@id/button_cat"
+        android:onClick="onButtonClick"
+        android:text="@string/cthulhu" />
+</RelativeLayout>
