@@ -6,33 +6,35 @@ import android.media.SoundPool;
 import android.util.SparseBooleanArray;
 
 import java.util.EnumMap;
+import java.util.Map;
 
 import ru.javaops.android.tamagotchi.R;
 import ru.javaops.android.tamagotchi.enums.PetsType;
 
 public class SoundHelper {
-    private static SoundPool soundPool;
-    private static EnumMap<PetsType, Integer> soundMap = new EnumMap<>(PetsType.class);
-    private static SparseBooleanArray soundCheckMap = new SparseBooleanArray();
+    private static final int MAX_STREAMS_SIZE = 20;
 
-    public static void initialSoundPool(Context context) {
+    private static SoundPool soundPool;
+    private static final Map<PetsType, Integer> soundMap = new EnumMap<>(PetsType.class);
+    private static final SparseBooleanArray soundCheckMap = new SparseBooleanArray();
+
+    private SoundHelper() {
+    }
+
+    public synchronized static void initialSoundPool(final Context context) {
         if (soundPool == null) {
             AudioAttributes attributes = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_GAME)
                     .setContentType(AudioAttributes.CONTENT_TYPE_UNKNOWN)
                     .build();
             soundPool = new SoundPool.Builder()
-                    .setMaxStreams(20)
+                    .setMaxStreams(MAX_STREAMS_SIZE)
                     .setAudioAttributes(attributes)
                     .build();
             soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
                 @Override
-                public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                    if (status == 0) {
-                        soundCheckMap.put(sampleId, true);
-                    } else {
-                        soundCheckMap.put(sampleId, false);
-                    }
+                public void onLoadComplete(SoundPool sp, int sampleId, int status) {
+                    soundCheckMap.put(sampleId, status == 0);
                 }
             });
             soundMap.put(PetsType.CAT, soundPool.load(context, R.raw.cat, 0));
@@ -47,5 +49,4 @@ public class SoundHelper {
             soundPool.play(sampleId, 1, 1, 2, 0, 1);
         }
     }
-
 }

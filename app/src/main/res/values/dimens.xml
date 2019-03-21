@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_margin">20dp</dimen>
+    <dimen name="home_button_margin">4dp</dimen>
+
+    <dimen name="title_hello_main">50sp</dimen>
+    <dimen name="title_hello_other">40sp</dimen>
+
+    <dimen name="home_btn_size">50dp</dimen>
+    <dimen name="pet_size">70dp</dimen>
+</resources>

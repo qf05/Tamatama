@@ -3,10 +3,10 @@
     android:interpolator="@android:anim/linear_interpolator">
 
     <alpha
-        android:repeatCount="1"
-        android:repeatMode="reverse"
         android:duration="1000"
         android:fromAlpha="1.0"
+        android:repeatCount="1"
+        android:repeatMode="reverse"
         android:toAlpha="0.2" />
 
     <rotate
@@ -16,5 +16,4 @@
         android:pivotY="50%"
         android:startOffset="2000"
         android:toDegrees="360" />
-
 </set>
