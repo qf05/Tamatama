@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -22,15 +24,21 @@ public class WalkActivity extends AppCompatActivity {
     private static final int RANDOM_TIME_DURATION_TRANSLATE = 1000;
     private static final int MIN_TIME_DURATION_TRANSLATE = 300;
     private static final int COEFFICIENT_TIME_DURATION_TRANSLATE = 3;
+    private static final int RANDOM_TIME_DURATION_ROTATE = 500;
+    private static final int COEFFICIENT_TIME_DURATION_ROTATE = 3;
+    private static final int DEFAULT_ROTATION = -90;
 
     private Animation.AnimationListener animationListener;
     private ImageView petView;
+    private int borderSize;
     private int height;
     private int width;
     private int thisX;
     private int thisY;
     private int nextX;
     private int nextY;
+    private float nextAngle;
+    private float angle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +78,7 @@ public class WalkActivity extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 thisX = nextX;
                 thisY = nextY;
+                angle = nextAngle;
                 startAnimation();
             }
 
@@ -88,10 +97,12 @@ public class WalkActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         final FrameLayout layout = findViewById(R.id.layoutWalk);
-                        height = layout.getHeight() - petView.getHeight();
-                        width = layout.getWidth() - petView.getWidth();
+                        borderSize = Math.max(petView.getHeight(), petView.getWidth()) / 2;
+                        height = layout.getHeight() - borderSize;
+                        width = layout.getWidth() - borderSize;
                         thisX = height / 2;
                         thisY = width / 2;
+                        petView.setRotation(DEFAULT_ROTATION);
                     }
                 });
             }
@@ -105,14 +116,33 @@ public class WalkActivity extends AppCompatActivity {
             nextY = (int) (Math.random() * height);
             distance = (int) Math.hypot(thisX - nextX, thisY - nextY);
         }
-        while (distance < Math.max(width, height) / MIN_DISTANCE_LIMIT_DIVIDER
-                || distance > Math.max(width, height) / MAX_DISTANCE_LIMIT_DIVIDER);
+        while (isPetPositionCorrect(distance));
+
+        nextAngle = (float) Math.toDegrees(Math.atan2(thisY - nextY, thisX - nextX));
+        int rotationDuration = (int) (Math.random() * RANDOM_TIME_DURATION_ROTATE +
+                Math.abs(nextAngle - angle) * COEFFICIENT_TIME_DURATION_ROTATE);
+        int translateDuration = (int) (Math.random() * RANDOM_TIME_DURATION_TRANSLATE +
+                MIN_TIME_DURATION_TRANSLATE +
+                ViewHelper.pxToDp(distance) * COEFFICIENT_TIME_DURATION_TRANSLATE);
+
+        final RotateAnimation rotateAnimation = new RotateAnimation(angle, nextAngle, 1, 0.5f, 1, 0.5f);
+        rotateAnimation.setDuration(rotationDuration);
 
         final Animation translateAnimation = new TranslateAnimation(thisX, nextX, thisY, nextY);
-        translateAnimation.setDuration((long) (Math.random() * RANDOM_TIME_DURATION_TRANSLATE
-                + MIN_TIME_DURATION_TRANSLATE
-                + ViewHelper.pxToDp(distance) * COEFFICIENT_TIME_DURATION_TRANSLATE));
-        translateAnimation.setAnimationListener(animationListener);
-        petView.startAnimation(translateAnimation);
+        translateAnimation.setDuration(translateDuration);
+        translateAnimation.setStartOffset((long) (rotationDuration - rotationDuration / COEFFICIENT_TIME_DURATION_ROTATE));
+
+        final AnimationSet animationSet = new AnimationSet(true);
+        animationSet.addAnimation(rotateAnimation);
+        animationSet.addAnimation(translateAnimation);
+        animationSet.setAnimationListener(animationListener);
+        petView.startAnimation(animationSet);
+    }
+
+    private boolean isPetPositionCorrect(int distance) {
+        return distance < Math.max(width, height) / MIN_DISTANCE_LIMIT_DIVIDER ||
+                distance > Math.max(width, height) / MAX_DISTANCE_LIMIT_DIVIDER ||
+                nextX < borderSize ||
+                nextY < borderSize;
     }
 }
