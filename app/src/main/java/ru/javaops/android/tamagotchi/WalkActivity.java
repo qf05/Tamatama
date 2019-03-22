@@ -37,6 +37,7 @@ public class WalkActivity extends AppCompatActivity {
     private static final int DEFAULT_ROTATION = -90;
 
     private Animator.AnimatorListener animatorListener;
+    private AnimatorSet animatorSet;
     private ImageView petView;
     private int borderSize;
     private int height;
@@ -59,9 +60,27 @@ public class WalkActivity extends AppCompatActivity {
         initAnimation();
     }
 
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        finish();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (animatorSet != null) {
+            animatorSet.removeAllListeners();
+            animatorSet.end();
+            animatorSet.cancel();
+        }
+        SoundHelper.destroySoundPool();
+    }
+
     public void goHome(View view) {
         Intent intent = new Intent(WalkActivity.this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void initViews() {
@@ -163,7 +182,7 @@ public class WalkActivity extends AppCompatActivity {
         animator.setDuration(translateDuration);
         animator.setStartDelay(rotationDuration - rotationDuration / COEFFICIENT_TIME_DURATION_ROTATE);
 
-        final AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet = new AnimatorSet();
         animatorSet.playTogether(rotate, animator);
         animatorSet.addListener(animatorListener);
         animatorSet.start();

@@ -49,4 +49,11 @@ public class SoundHelper {
             soundPool.play(sampleId, 1, 1, 2, 0, 1);
         }
     }
+
+    public static void destroySoundPool() {
+        if (soundPool != null) {
+            soundPool.release();
+            soundPool = null;
+        }
+    }
 }
