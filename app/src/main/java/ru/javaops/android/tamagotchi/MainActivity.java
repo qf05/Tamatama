@@ -1,6 +1,8 @@
 package ru.javaops.android.tamagotchi;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,8 +18,13 @@ import static ru.javaops.android.tamagotchi.WalkActivity.INTENT_PET_TO_WALK;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String APP_PREFERENCES = "PREFERENCES";
+    public static final String PREFERENCES_SELECTED_PET = "SELECTED_PET";
+
     public static Pet selectedPet;
     private static boolean soundOn = true;
+    private DataBase db;
+    private SharedPreferences settings;
     private MenuItem soundCheckbox;
     private TextView petName;
     private ImageView petView;
@@ -27,13 +34,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-        final DataBase db = DataBase.getAppDatabase(getApplicationContext());
+        db = DataBase.getAppDatabase(getApplicationContext());
         selectedPet = db.petDao().findAny();
+        settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        long petId = settings.getLong(PREFERENCES_SELECTED_PET, -1);
+        if (petId >= 0) {
+            selectedPet = db.petDao().findById(petId);
+            if (selectedPet == null) {
+                selectedPet = db.petDao().findAny();
+                if (selectedPet != null) {
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putLong(PREFERENCES_SELECTED_PET, selectedPet.getId());
+                    editor.apply();
+                }
+            }
+        }
         if (selectedPet != null) {
             petName.setText(selectedPet.getName());
             petView.setImageResource(selectedPet.getPetsType().getDrawableResource());

@@ -1,7 +1,9 @@
 package ru.javaops.android.tamagotchi;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +17,8 @@ import ru.javaops.android.tamagotchi.enums.PetsType;
 import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.utils.PetUtils;
 
-import static ru.javaops.android.tamagotchi.MainActivity.selectedPet;
+import static ru.javaops.android.tamagotchi.MainActivity.APP_PREFERENCES;
+import static ru.javaops.android.tamagotchi.MainActivity.PREFERENCES_SELECTED_PET;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -25,6 +28,7 @@ public class SettingsActivity extends AppCompatActivity {
     private View.OnClickListener okCreateListener;
     private View.OnClickListener cancelListener;
     private DataBase db;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         initListeners();
         db = DataBase.getAppDatabase(getApplicationContext());
+        settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     public void goBack(View view) {
@@ -76,7 +81,9 @@ public class SettingsActivity extends AppCompatActivity {
                     PetsType petsType = petsTypes[spinnerCreate.getSelectedItemPosition()];
                     Log.d("SELECTED_PET", petsType.toString() + "   " + name);
                     long id = db.petDao().insert(new Pet(name, petsType));
-                    selectedPet = db.petDao().findById(id);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putLong(PREFERENCES_SELECTED_PET, id);
+                    editor.apply();
                     dialog.cancel();
                     finish();
                 }
