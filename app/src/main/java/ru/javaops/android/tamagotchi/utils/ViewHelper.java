@@ -1,5 +1,6 @@
 package ru.javaops.android.tamagotchi.utils;
 
+import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -16,5 +17,9 @@ public class ViewHelper {
                 obs.removeOnGlobalLayoutListener(this);
             }
         });
+    }
+
+    public static int pxToDp(int px) {
+        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
     }
 }
