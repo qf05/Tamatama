@@ -2,6 +2,8 @@ package ru.javaops.android.tamagotchi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -11,11 +13,44 @@ import static ru.javaops.android.tamagotchi.WalkActivity.INTENT_PET_TYPE;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static boolean soundOn = true;
+    private MenuItem soundCheckbox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        soundCheckbox = menu.findItem(R.id.offSound);
+        soundCheckbox.setChecked(soundOn);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.petSettings:
+
+                return true;
+            case R.id.alarmSettings:
+
+                return true;
+            case R.id.showHistory:
+
+                return true;
+            case R.id.offSound:
+                soundOn = !soundOn;
+                soundCheckbox.setChecked(soundOn);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void onButtonClick(View view) {
@@ -44,5 +79,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         };
+    }
+
+    public static boolean isSoundOn() {
+        return soundOn;
     }
 }

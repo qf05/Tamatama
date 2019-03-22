@@ -8,6 +8,7 @@ import android.util.SparseBooleanArray;
 import java.util.EnumMap;
 import java.util.Map;
 
+import ru.javaops.android.tamagotchi.MainActivity;
 import ru.javaops.android.tamagotchi.R;
 import ru.javaops.android.tamagotchi.enums.PetsType;
 
@@ -45,7 +46,7 @@ public class SoundHelper {
 
     public static void play(PetsType petsType) {
         Integer sampleId = soundMap.get(petsType);
-        if (sampleId != null && soundCheckMap.get(sampleId)) {
+        if (MainActivity.isSoundOn() && sampleId != null && soundCheckMap.get(sampleId)) {
             soundPool.play(sampleId, 1, 1, 2, 0, 1);
         }
     }
