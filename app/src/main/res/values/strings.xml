@@ -27,10 +27,17 @@
     <string name="not_empty">Имя не должно быть пустым!</string>
     <string name="max_characters">Имя не должно быть длиннее 15 символов</string>
     <string name="not_correct_name">Некорректное имя!</string>
+    <string name="sort_on">Сортировка по</string>
+    <string name="pet_icon">pet icon</string>
 
     <string-array name="pets">
         <item>Кошка</item>
         <item>Собака</item>
         <item>Ктулху</item>
+    </string-array>
+
+    <string-array name="sort">
+        <item>имени</item>
+        <item>уровню</item>
     </string-array>
 </resources>
