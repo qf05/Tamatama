@@ -1,11 +1,12 @@
 package ru.javaops.android.tamagotchi.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import ru.javaops.android.tamagotchi.enums.PetsType;
 
-public class Pet {
+public class Pet implements Serializable {
     private long id;
     private String name;
     private PetsType petsType;

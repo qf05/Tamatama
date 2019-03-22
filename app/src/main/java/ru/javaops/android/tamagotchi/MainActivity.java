@@ -5,22 +5,36 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import ru.javaops.android.tamagotchi.model.Pet;
 
-import static ru.javaops.android.tamagotchi.WalkActivity.INTENT_PET_TYPE;
+import static ru.javaops.android.tamagotchi.WalkActivity.INTENT_PET_TO_WALK;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static Pet selectedPet;
     private static boolean soundOn = true;
     private MenuItem soundCheckbox;
+    private TextView petName;
+    private ImageView petView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (selectedPet != null) {
+            petName.setText(selectedPet.getName());
+            petView.setImageResource(selectedPet.getPetsType().getDrawableResource());
+        }
     }
 
     @Override
@@ -54,32 +68,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void initViews() {
+        petName = findViewById(R.id.pet_name);
+        petView = findViewById(R.id.pet_view);
+    }
+
+    public void goWalk(View view) {
+        if (selectedPet != null) {
+            Intent intent = new Intent(MainActivity.this, WalkActivity.class);
+            intent.putExtra(INTENT_PET_TO_WALK, selectedPet);
+            startActivity(intent);
+        }
+    }
+
     public void onButtonClick(View view) {
         Intent intent = new Intent(MainActivity.this, OtherActivity.class);
         startActivity(intent);
-    }
-
-    private void initViews() {
-        Button cat = findViewById(R.id.button_cat);
-        Button dog = findViewById(R.id.button_dog);
-        Button cthulhu = findViewById(R.id.button_cthulhu);
-
-        final View.OnClickListener buttonListener = initButtonListener();
-        cat.setOnClickListener(buttonListener);
-        dog.setOnClickListener(buttonListener);
-        cthulhu.setOnClickListener(buttonListener);
-    }
-
-    private View.OnClickListener initButtonListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Button button = (Button) v;
-                Intent intent = new Intent(MainActivity.this, WalkActivity.class);
-                intent.putExtra(INTENT_PET_TYPE, button.getText().toString().toUpperCase());
-                startActivity(intent);
-            }
-        };
     }
 
     public static boolean isSoundOn() {
