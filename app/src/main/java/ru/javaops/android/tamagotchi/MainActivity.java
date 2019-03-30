@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String APP_PREFERENCES = "PREFERENCES";
     public static final String PREFERENCES_SELECTED_PET = "SELECTED_PET";
+    private static final String PREFERENCES_SOUND_ON = "SOUND_ON";
 
     public static Pet selectedPet;
     private static boolean soundOn = true;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         db = DataBase.getAppDatabase(getApplicationContext());
         selectedPet = db.petDao().findAny();
         settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        soundOn = settings.getBoolean(PREFERENCES_SOUND_ON, true);
     }
 
     @Override
@@ -85,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.offSound:
                 soundOn = !soundOn;
                 soundCheckbox.setChecked(soundOn);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean(PREFERENCES_SOUND_ON, soundOn);
+                editor.apply();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
