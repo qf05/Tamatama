@@ -29,6 +29,9 @@
     <string name="not_correct_name">Некорректное имя!</string>
     <string name="sort_on">Сортировка по</string>
     <string name="pet_icon">pet icon</string>
+    <string name="this_name">Текущее имя: </string>
+    <string name="input_new_name">Введите новое имя:</string>
+    <string name="change_name_pet">Смена имени питомца</string>
 
     <string-array name="pets">
         <item>Кошка</item>
