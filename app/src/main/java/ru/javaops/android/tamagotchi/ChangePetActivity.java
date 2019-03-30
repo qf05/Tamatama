@@ -9,12 +9,11 @@ import android.view.View;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.javaops.android.tamagotchi.adapters.ChangeRVAdapter;
 import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.model.Pet;
+import ru.javaops.android.tamagotchi.utils.Utils;
 
 import static ru.javaops.android.tamagotchi.MainActivity.APP_PREFERENCES;
 import static ru.javaops.android.tamagotchi.MainActivity.PREFERENCES_SELECTED_PET;
@@ -29,13 +28,7 @@ public class ChangePetActivity extends AppCompatActivity implements ChangeRVAdap
         setContentView(R.layout.activity_change_pet);
 
         final RecyclerView rv = findViewById(R.id.change_rv);
-        rv.setHasFixedSize(true);
-        final LinearLayoutManager llm = new LinearLayoutManager(ChangePetActivity.this);
-        rv.setLayoutManager(llm);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rv.getContext(),
-                llm.getOrientation());
-        rv.addItemDecoration(dividerItemDecoration);
-
+        Utils.setParametersRv(ChangePetActivity.this, rv);
         final List<Pet> pets = DataBase.getAppDatabase(getApplicationContext()).petDao().getAll();
         adapter = new ChangeRVAdapter(pets);
         adapter.setClickListener(ChangePetActivity.this);

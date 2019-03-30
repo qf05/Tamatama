@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DeletePetActivity">
+
+    <ImageView
+        android:id="@+id/delete_header_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/tv_header" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/delete_footer_image"
+        android:layout_below="@+id/delete_header_image"
+        android:contentDescription="@string/background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/tv_display" />
+
+    <TextView
+        android:id="@+id/delete_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/delete_header_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/min_margin"
+        android:text="@string/delete_pet"
+        android:textColor="@color/black"
+        android:textSize="@dimen/title_txt_size" />
+
+    <LinearLayout
+        android:id="@+id/layoutDeletePet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/delete_header"
+        android:layout_marginStart="@dimen/main_margin"
+        android:layout_marginEnd="@dimen/main_margin"
+        android:layout_marginBottom="@dimen/indent_margin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_on"
+            android:textColor="@color/black"
+            android:textSize="@dimen/main_txt_size" />
+
+        <Spinner
+            android:id="@+id/deleteSort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/main_margin"
+            android:entries="@array/sort" />
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/delete_rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/delete_footer_image"
+        android:layout_below="@+id/layoutDeletePet"
+        android:layout_marginStart="@dimen/main_margin"
+        android:layout_marginEnd="@dimen/main_margin"
+        android:layout_marginBottom="@dimen/min_margin" />
+
+    <ImageView
+        android:id="@+id/delete_footer_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:contentDescription="@string/background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/tv_footer" />
+
+    <ImageButton
+        android:layout_width="@dimen/round_btn_size"
+        android:layout_height="@dimen/round_btn_size"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/min_margin"
+        android:layout_marginBottom="@dimen/min_margin"
+        android:background="@drawable/back"
+        android:contentDescription="@string/back"
+        android:onClick="goBack" />
+</RelativeLayout>

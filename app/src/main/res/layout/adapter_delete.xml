@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/selectableItemBackground">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="@dimen/card_radius_corner"
+        card_view:cardElevation="@dimen/card_elevation"
+        card_view:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/pet_icon_del"
+                android:layout_width="@dimen/pet_icon_size"
+                android:layout_height="@dimen/pet_icon_size"
+                android:layout_margin="@dimen/min_margin"
+                android:contentDescription="@string/pet_icon" />
+
+            <TextView
+                android:id="@+id/pet_name_del"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/main_margin"
+                android:layout_toStartOf="@+id/checkbox_delete"
+                android:layout_toEndOf="@+id/pet_icon_del"
+                android:textSize="@dimen/title_txt_size" />
+
+            <TextView
+                android:id="@+id/pet_lvl_del"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pet_name_del"
+                android:layout_marginEnd="@dimen/main_margin"
+                android:layout_toStartOf="@+id/checkbox_delete"
+                android:layout_toEndOf="@+id/pet_icon_del"
+                android:textSize="@dimen/main_txt_size" />
+
+            <CheckBox
+                android:id="@+id/checkbox_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/min_margin"
+                android:checked="false"
+                android:clickable="false" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

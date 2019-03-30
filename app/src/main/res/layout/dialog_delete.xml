@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/sure_layout"
+        android:contentDescription="@string/background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_dialog" />
+
+    <LinearLayout
+        android:id="@+id/sure_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/main_margin"
+            android:gravity="center"
+            android:text="@string/delete_this_pets"
+            android:textColor="@color/black"
+            android:textSize="@dimen/main_txt_size"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/min_margin"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cancelDelete"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/main_margin"
+                android:layout_marginEnd="@dimen/main_margin"
+                android:layout_weight="1"
+                android:text="@string/cancel" />
+
+            <Button
+                android:id="@+id/okDelete"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/main_margin"
+                android:layout_marginEnd="@dimen/main_margin"
+                android:layout_weight="1"
+                android:text="@string/ok" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
