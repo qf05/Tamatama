@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.List;
@@ -37,6 +39,20 @@ public class DeletePetActivity extends AppCompatActivity implements DeleteRVAdap
         final RecyclerView rv = findViewById(R.id.delete_rv);
         Utils.setParametersRv(DeletePetActivity.this, rv);
         pets = DataBase.getAppDatabase(getApplicationContext()).petDao().getAll();
+        Spinner sortSpinner = findViewById(R.id.deleteSort);
+        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Utils.sort(pets, position);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Utils.sort(pets, 0);
+            }
+        });
+
         adapter = new DeleteRVAdapter(pets);
         adapter.setClickListener(DeletePetActivity.this);
         rv.setAdapter(adapter);

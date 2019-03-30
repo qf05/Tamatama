@@ -114,6 +114,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void lvlUp(View view) {
+        selectedPet.setLvl(selectedPet.getLvl() + 1);
+        db.petDao().update(selectedPet);
+    }
+
     public static boolean isSoundOn() {
         return soundOn;
     }

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 
 import java.util.List;
 
@@ -25,10 +27,24 @@ public class ChangePetActivity extends AppCompatActivity implements ChangeRVAdap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_pet);
-
         final RecyclerView rv = findViewById(R.id.change_rv);
         Utils.setParametersRv(ChangePetActivity.this, rv);
         final List<Pet> pets = DataBase.getAppDatabase(getApplicationContext()).petDao().getAll();
+
+        Spinner sortSpinner = findViewById(R.id.changeSort);
+        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Utils.sort(pets, position);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Utils.sort(pets, 0);
+            }
+        });
+
         adapter = new ChangeRVAdapter(pets);
         adapter.setClickListener(ChangePetActivity.this);
         rv.setAdapter(adapter);
