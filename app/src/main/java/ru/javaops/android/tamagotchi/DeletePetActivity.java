@@ -2,7 +2,6 @@ package ru.javaops.android.tamagotchi;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.Log;
@@ -116,8 +115,6 @@ public class DeletePetActivity extends AppCompatActivity implements DeleteRVAdap
     }
 
     public void goBack(View view) {
-        Intent intent = new Intent(DeletePetActivity.this, SettingsActivity.class);
-        startActivity(intent);
         finish();
     }
 }
