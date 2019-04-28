@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -21,10 +23,14 @@ import ru.javaops.android.tamagotchi.utils.PrefsUtils;
 public class SettingsActivity extends AppCompatActivity {
 
     private Spinner spinnerCreate;
+    private TextView selectedPetName;
     private EditText inputName;
+    private Button cancelButton;
+    private Button okButton;
     private AlertDialog dialog;
     private View.OnClickListener okCreateListener;
-    private View.OnClickListener cancelListener;
+    private View.OnClickListener cancelButtonListener;
+    private OkChangeClickListener okChangeClickListener;
     private DataBase db;
 
     @Override
@@ -46,7 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
         spinnerCreate = layout.findViewById(R.id.input_type_pet);
         inputName = layout.findViewById(R.id.input_name);
         layout.findViewById(R.id.ok_create).setOnClickListener(okCreateListener);
-        layout.findViewById(R.id.cancel_create).setOnClickListener(cancelListener);
+        layout.findViewById(R.id.cancel_create).setOnClickListener(cancelButtonListener);
 
         dialog = new AlertDialog.Builder(this)
                 .setView(layout)
@@ -66,7 +72,25 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void changePetName(View view) {
+        final Pet pet = PetUtils.getSelectedPet(this);
+        if (pet != null) {
+            View layout = getLayoutInflater().inflate(R.layout.dialog_change_name, null);
+            initViews(layout);
+            selectedPetName.setText(getString(R.string.this_name, pet.getName()));
+            cancelButton.setOnClickListener(cancelButtonListener);
+            okButton.setOnClickListener(okChangeClickListener.setPet(pet));
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(layout).setCancelable(false);
+            dialog = builder.create();
+            dialog.show();
+        }
+    }
 
+    private void initViews(View layout) {
+        selectedPetName = layout.findViewById(R.id.selected_pet_name);
+        inputName = layout.findViewById(R.id.input_name);
+        cancelButton = layout.findViewById(R.id.cancel_change_name);
+        okButton = layout.findViewById(R.id.ok_change_name);
     }
 
     private void initListeners() {
@@ -90,12 +114,36 @@ public class SettingsActivity extends AppCompatActivity {
             }
         };
 
-        cancelListener = new View.OnClickListener() {
+        cancelButtonListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.cancel();
             }
         };
+
+        okChangeClickListener = new OkChangeClickListener();
+    }
+
+    private class OkChangeClickListener implements View.OnClickListener {
+        private Pet pet;
+
+        public OkChangeClickListener setPet(Pet pet) {
+            this.pet = pet;
+            return this;
+        }
+
+        @Override
+        public void onClick(View v) {
+            String name = inputName.getText().toString().trim();
+            NameCheckStatus nameCheckStatus = PetUtils.checkName(name);
+            if (nameCheckStatus != NameCheckStatus.CORRECT) {
+                makeMessage(nameCheckStatus.getMessageId());
+            } else {
+                pet.setName(name);
+                db.petDao().update(pet);
+                dialog.cancel();
+            }
+        }
     }
 
     private void makeMessage(int messageId) {
