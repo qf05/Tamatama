@@ -2,20 +2,53 @@ package ru.javaops.android.tamagotchi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import ru.javaops.android.tamagotchi.utils.SoundHelper;
 
 import static ru.javaops.android.tamagotchi.WalkActivity.INTENT_PET_TYPE;
 
 public class MainActivity extends AppCompatActivity {
+
+    private MenuItem soundCheckbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        soundCheckbox = menu.findItem(R.id.off_sound);
+        soundCheckbox.setChecked(SoundHelper.isSoundOn());
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.pet_settings:
+                break;
+            case R.id.alarm_settings:
+                break;
+            case R.id.show_history:
+                break;
+            case R.id.off_sound:
+                SoundHelper.switchSoundState();
+                soundCheckbox.setChecked(SoundHelper.isSoundOn());
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 
     public void onButtonClick(View view) {
