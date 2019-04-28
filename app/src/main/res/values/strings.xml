@@ -17,4 +17,15 @@
     <string name="change_name">Сменить имя</string>
     <string name="delete_pet">Удаление питомцев</string>
     <string name="back">back</string>
+    <string name="ok">ОК</string>
+    <string name="cancel">Отмена</string>
+    <string name="name">Name</string>
+    <string name="pets_input">Выберите питомца:</string>
+    <string name="create_pet">Создание питомца</string>
+    <string name="input_name">Введите имя:</string>
+    <string name="go_walk">Go walk</string>
+    <string name="error_empty_name">Имя не должно быть пустым!</string>
+    <string name="error_max_characters">Имя не должно быть длиннее 15 символов</string>
+    <string name="error_not_correct_name">Некорректное имя!</string>
+    <string name="error_min_characters">Имя не должно быть короче 2 символов</string>
 </resources>

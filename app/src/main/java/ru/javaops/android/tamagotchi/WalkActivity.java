@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import ru.javaops.android.tamagotchi.enums.PetsType;
+import ru.javaops.android.tamagotchi.model.Pet;
+import ru.javaops.android.tamagotchi.utils.PetUtils;
 import ru.javaops.android.tamagotchi.utils.SoundHelper;
 import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
@@ -25,7 +27,7 @@ import static android.view.View.TRANSLATION_Y;
 
 @SuppressLint("ClickableViewAccessibility")
 public class WalkActivity extends AppCompatActivity {
-    public static final String INTENT_PET_TYPE = "pet_type";
+
     private static final String SAVE_COUNT = "save_count";
 
     private static final double DOG_VIEW_MAGNIFICATION = 1.8;
@@ -104,7 +106,8 @@ public class WalkActivity extends AppCompatActivity {
     private void initViews() {
         countTextView = findViewById(R.id.counter);
         petView = findViewById(R.id.image_pet);
-        final PetsType petsType = PetsType.valueOf(getIntent().getStringExtra(INTENT_PET_TYPE));
+        final Pet pet = PetUtils.getSelectedPet();
+        final PetsType petsType = pet.getPetsType();
         petView.setImageResource(petsType.getDrawableResource());
         if (PetsType.DOG == petsType) {
             ViewGroup.LayoutParams params = petView.getLayoutParams();
