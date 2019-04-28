@@ -34,4 +34,15 @@
     <string name="this_name">Текущее имя: %s</string>
     <string name="input_new_name">Введите новое имя:</string>
     <string name="change_name_pet">Смена имени питомца</string>
+    <string name="delete_this_pets">Вы действительно хотите удалить выбранных питомцев?</string>
+    <string name="delete">Удалить</string>
+
+    <plurals name="was_delete_plurals">
+        <item quantity="zero">Удалено %d питомцев</item>
+        <item quantity="one">Удалено %d питомец</item>
+        <item quantity="two">Удалено %d питомца</item>
+        <item quantity="few">Удалено %d питомца</item>
+        <item quantity="many">Удалено %d питомцев</item>
+        <item quantity="other">Удалено %d питомцев</item>
+    </plurals>
 </resources>

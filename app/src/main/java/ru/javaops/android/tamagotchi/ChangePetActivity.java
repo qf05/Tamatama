@@ -7,13 +7,12 @@ import android.view.View;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.javaops.android.tamagotchi.adapters.PetAdapter;
 import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.utils.PrefsUtils;
+import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
 public class ChangePetActivity extends AppCompatActivity implements PetAdapter.ItemClickListener {
 
@@ -28,8 +27,8 @@ public class ChangePetActivity extends AppCompatActivity implements PetAdapter.I
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-        PrefsUtils.saveSelectedPetId(this, adapter.getItem(position).getId());
+    public void onItemClick(long itemId) {
+        PrefsUtils.saveSelectedPetId(this, itemId);
         goBack(null);
     }
 
@@ -41,12 +40,7 @@ public class ChangePetActivity extends AppCompatActivity implements PetAdapter.I
 
     private void initRecycler() {
         final RecyclerView rv = findViewById(R.id.change_rv);
-        rv.setHasFixedSize(true);
-        final LinearLayoutManager llm = new LinearLayoutManager(ChangePetActivity.this);
-        rv.setLayoutManager(llm);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rv.getContext(),
-                llm.getOrientation());
-        rv.addItemDecoration(dividerItemDecoration);
+        ViewHelper.setParametersRv(ChangePetActivity.this, rv);
 
         final List<Pet> pets = DataBase.getAppDatabase(getApplicationContext()).petDao().getAll();
         adapter = new PetAdapter(pets, this);
