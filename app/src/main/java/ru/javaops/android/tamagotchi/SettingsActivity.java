@@ -16,6 +16,7 @@ import ru.javaops.android.tamagotchi.enums.NameCheckStatus;
 import ru.javaops.android.tamagotchi.enums.PetsType;
 import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.utils.PetUtils;
+import ru.javaops.android.tamagotchi.utils.PrefsUtils;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -80,8 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
                     Log.d("SELECTED_PET", petsType.toString() + "   " + name);
                     Pet pet = new Pet(name, petsType);
                     long id = db.petDao().insert(pet);
-                    pet.setId(id);
-                    PetUtils.setSelectedPet(pet);
+                    PrefsUtils.saveSelectedPetId(SettingsActivity.this, id);
                     dialog.cancel();
                     finish();
                 }

@@ -106,7 +106,7 @@ public class WalkActivity extends AppCompatActivity {
     private void initViews() {
         countTextView = findViewById(R.id.counter);
         petView = findViewById(R.id.image_pet);
-        final Pet pet = PetUtils.getSelectedPet();
+        final Pet pet = PetUtils.getSelectedPet(getApplicationContext());
         final PetsType petsType = pet.getPetsType();
         petView.setImageResource(petsType.getDrawableResource());
         if (PetsType.DOG == petsType) {
