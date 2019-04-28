@@ -1,7 +1,6 @@
 package ru.javaops.android.tamagotchi;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -91,8 +90,6 @@ public class DeletePetActivity extends AppCompatActivity {
     }
 
     public void goBack(View view) {
-        Intent intent = new Intent(DeletePetActivity.this, SettingsActivity.class);
-        startActivity(intent);
         finish();
     }
 }
