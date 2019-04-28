@@ -5,4 +5,9 @@
         <item>Собака</item>
         <item>Ктулху</item>
     </string-array>
+
+    <string-array name="sort">
+        <item>имени</item>
+        <item>уровню</item>
+    </string-array>
 </resources>

@@ -28,4 +28,7 @@
     <string name="error_max_characters">Имя не должно быть длиннее 15 символов</string>
     <string name="error_not_correct_name">Некорректное имя!</string>
     <string name="error_min_characters">Имя не должно быть короче 2 символов</string>
+    <string name="sort_on">Сортировка по</string>
+    <string name="pet_icon">pet icon</string>
+    <string name="level_number">%d lvl</string>
 </resources>
