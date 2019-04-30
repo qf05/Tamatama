@@ -17,6 +17,7 @@ import java.util.Locale;
 
 import ru.javaops.android.tamagotchi.R;
 import ru.javaops.android.tamagotchi.model.Pet;
+import ru.javaops.android.tamagotchi.utils.CompareUtils;
 
 public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
 
@@ -29,6 +30,7 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
     private SparseBooleanArray deleteMap = new SparseBooleanArray();
 
     public PetAdapter(List<Pet> pets, ItemClickListener itemClickListener) {
+        CompareUtils.sort(pets, 0);
         this.pets = pets;
         this.clickListener = itemClickListener;
     }
@@ -59,7 +61,8 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
         return pets.size();
     }
 
-    public void updateData(List<Pet> pets) {
+    public void updateData(List<Pet> pets, int spinnerPosition) {
+        CompareUtils.sort(pets, spinnerPosition);
         this.pets.clear();
         this.pets.addAll(pets);
         deleteMap.clear();

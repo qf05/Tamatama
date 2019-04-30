@@ -36,6 +36,7 @@
     <string name="change_name_pet">Смена имени питомца</string>
     <string name="delete_this_pets">Вы действительно хотите удалить выбранных питомцев?</string>
     <string name="delete">Удалить</string>
+    <string name="lvl_up">lvl_up</string>
 
     <plurals name="was_delete_plurals">
         <item quantity="zero">Удалено %d питомцев</item>

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.utils.PetUtils;
 import ru.javaops.android.tamagotchi.utils.SoundHelper;
@@ -17,6 +18,7 @@ import ru.javaops.android.tamagotchi.utils.SoundHelper;
 public class MainActivity extends AppCompatActivity {
 
     private Pet selectedPet;
+    private DataBase db;
     private MenuItem soundCheckbox;
     private TextView petName;
     private ImageView petView;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        db = DataBase.getAppDatabase(this);
         initViews();
     }
 
@@ -95,5 +98,10 @@ public class MainActivity extends AppCompatActivity {
     public void onButtonClick(View view) {
         Intent intent = new Intent(MainActivity.this, OtherActivity.class);
         startActivity(intent);
+    }
+
+    public void lvlUp(View view) {
+        selectedPet.incLvl();
+        db.petDao().update(selectedPet);
     }
 }
