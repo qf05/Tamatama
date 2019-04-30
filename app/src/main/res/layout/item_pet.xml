@@ -34,5 +34,16 @@
             android:layout_below="@+id/pet_name"
             android:layout_toEndOf="@+id/pet_icon"
             android:textSize="@dimen/main_txt_size" />
+
+        <CheckBox
+            android:id="@+id/checkbox_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/min_margin"
+            android:checked="false"
+            android:clickable="false"
+            android:visibility="gone" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
