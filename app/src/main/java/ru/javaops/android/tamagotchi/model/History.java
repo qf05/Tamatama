@@ -1,20 +1,41 @@
 package ru.javaops.android.tamagotchi.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
 import ru.javaops.android.tamagotchi.enums.ActionType;
 
+// https://habr.com/post/336196/
+@Entity(foreignKeys = @ForeignKey(
+        onDelete = ForeignKey.CASCADE,
+        entity = Pet.class,
+        parentColumns = "id",
+        childColumns = "pet_id"),
+        indices = {@Index("pet_id")})
 public class History {
+
+    @PrimaryKey(autoGenerate = true)
     private long id;
+
     private long date;
+
+    @ColumnInfo(name = "action_type")
     private ActionType actionType;
+
+    @ColumnInfo(name = "pet_id")
     private long petId;
 
     public History() {
     }
 
+    @Ignore
     public History(long date, ActionType actionType, long petId) {
         this.date = date;
         this.actionType = actionType;
