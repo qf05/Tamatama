@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.show_history:
                 break;
             case R.id.off_sound:
-                SoundHelper.switchSoundState();
+                SoundHelper.switchSoundState(this);
                 soundCheckbox.setChecked(SoundHelper.isSoundOn());
                 break;
             default:
