@@ -1,30 +1,59 @@
 package ru.javaops.android.tamagotchi.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
 import ru.javaops.android.tamagotchi.enums.PetsType;
 
+//http://qaru.site/questions/16042145/sqlite-requires-having-a-unique-constraint-android-room-annotations
+@Entity(tableName = "pet",
+        indices = {@Index(value = "id", unique = true)})
 public class Pet {
+
+    @PrimaryKey(autoGenerate = true)
     private long id;
+
     private String name;
+
+    @ColumnInfo(name = "pets_type")
     private PetsType petsType;
+
     private int lvl;
     private int hp;
     private int satiety;
     private int experience;
+
+    @ColumnInfo(name = "is_live")
     private boolean isLive;
+
+    @ColumnInfo(name = "is_ill")
     private boolean isIll;
+
+    @ColumnInfo(name = "is_slip")
     private boolean isSlip;
+
+    @ColumnInfo(name = "next_walk")
     private long nextWalk;
+
+    @ColumnInfo(name = "next_sleep")
     private long nextSlip;
+
+    @ColumnInfo(name = "next_shit")
     private long nextShit;
+
+    @ColumnInfo(name = "wake_up")
     private long wakeUp;
 
     public Pet() {
     }
 
+    @Ignore
     public Pet(String name, PetsType petsType) {
         this.name = name;
         this.petsType = petsType;
