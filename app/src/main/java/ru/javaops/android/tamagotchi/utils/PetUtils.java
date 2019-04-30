@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.enums.NameCheckStatus;
+import ru.javaops.android.tamagotchi.enums.PetsType;
 import ru.javaops.android.tamagotchi.model.Pet;
 
 public class PetUtils {
@@ -47,5 +48,13 @@ public class PetUtils {
             }
         }
         return pet;
+    }
+
+    public static void createPet(Context context, String name, PetsType petsType) {
+        final DataBase db = DataBase.getAppDatabase(context);
+        Pet pet = new Pet(name, petsType);
+        long id = db.petDao().insert(pet);
+        pet.setId(id);
+        PrefsUtils.saveSelectedPetId(context, id);
     }
 }

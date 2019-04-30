@@ -49,7 +49,7 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
         holder.petLvl.setText(String.format(Locale.getDefault(),
                 holder.itemView.getContext().getString(R.string.level_number),
                 pets.get(position).getLvl()));
-        holder.petIcon.setImageResource(pets.get(position).getPetsType().getDrawableResource());
+        holder.petIcon.setImageResource(pets.get(position).getPetsType().getIconDrawableResource());
         if (clickListener == null) {
             holder.checkBox.setVisibility(View.VISIBLE);
             holder.checkBox.setChecked(deleteMap.get(position, false));

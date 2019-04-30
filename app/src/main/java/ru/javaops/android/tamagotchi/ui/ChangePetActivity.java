@@ -1,14 +1,13 @@
-package ru.javaops.android.tamagotchi;
+package ru.javaops.android.tamagotchi.ui;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Spinner;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import ru.javaops.android.tamagotchi.R;
 import ru.javaops.android.tamagotchi.adapters.PetAdapter;
 import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.model.Pet;
@@ -16,13 +15,12 @@ import ru.javaops.android.tamagotchi.utils.CompareUtils;
 import ru.javaops.android.tamagotchi.utils.PrefsUtils;
 import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
-public class ChangePetActivity extends AppCompatActivity implements PetAdapter.ItemClickListener {
+public class ChangePetActivity extends BaseActivity implements PetAdapter.ItemClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_pet);
-
         initViews();
     }
 
@@ -30,10 +28,6 @@ public class ChangePetActivity extends AppCompatActivity implements PetAdapter.I
     public void onItemClick(long itemId) {
         PrefsUtils.saveSelectedPetId(this, itemId);
         goBack(null);
-    }
-
-    public void goBack(View view) {
-        finish();
     }
 
     private void initViews() {
