@@ -17,6 +17,15 @@
         android:layout_height="@dimen/pet_size"
         android:contentDescription="@string/pet" />
 
+    <TextView
+        android:id="@+id/counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start_counter"
+        android:textColor="@color/red"
+        android:textSize="@dimen/title_txt_size"
+        android:textStyle="bold" />
+
     <ImageButton
         android:id="@+id/button_home"
         android:layout_width="@dimen/round_btn_size"

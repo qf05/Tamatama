@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +27,7 @@ import static android.view.View.TRANSLATION_Y;
 @SuppressLint("ClickableViewAccessibility")
 public class WalkActivity extends AppCompatActivity {
     public static final String INTENT_PET_TYPE = "pet_type";
+    private static final String SAVE_COUNT = "save_count";
 
     private static final double DOG_VIEW_MAGNIFICATION = 1.8;
     private static final double MAX_DISTANCE_LIMIT_DIVIDER = 1.5;
@@ -40,6 +42,7 @@ public class WalkActivity extends AppCompatActivity {
     private Animator.AnimatorListener animatorListener;
     private AnimatorSet animatorSet;
     private ImageView petView;
+    private TextView countTextView;
     private int borderHeight;
     private int borderWidth;
     private int height;
@@ -50,6 +53,7 @@ public class WalkActivity extends AppCompatActivity {
     private int nextY;
     private float nextAngle;
     private float angle;
+    private int counter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +83,19 @@ public class WalkActivity extends AppCompatActivity {
         SoundHelper.destroySoundPool();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SAVE_COUNT, counter);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        counter = savedInstanceState.getInt(SAVE_COUNT);
+        countTextView.setText(String.valueOf(counter));
+    }
+
     public void goHome(View view) {
         Intent intent = new Intent(WalkActivity.this, MainActivity.class);
         startActivity(intent);
@@ -86,6 +103,7 @@ public class WalkActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        countTextView = findViewById(R.id.counter);
         petView = findViewById(R.id.image_pet);
         final PetsType petsType = PetsType.valueOf(getIntent().getStringExtra(INTENT_PET_TYPE));
         petView.setImageResource(petsType.getDrawableResource());
@@ -100,6 +118,7 @@ public class WalkActivity extends AppCompatActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.d("WALK", "Touch on pet");
                     SoundHelper.play(petsType);
+                    countTextView.setText(String.valueOf(++counter));
                     return true;
                 }
                 return false;
