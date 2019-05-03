@@ -33,23 +33,6 @@ public class PetUtils {
         return NameCheckStatus.CORRECT;
     }
 
-    public static Pet getSelectedPet(Context context) {
-        Pet pet = null;
-        long petId = PrefsUtils.getSelectedPetId(context);
-
-        DataBase db = DataBase.getAppDatabase(context);
-        if (petId >= 0) {
-            pet = db.petDao().findById(petId);
-            if (pet == null) {
-                pet = db.petDao().findAny();
-                if (pet != null) {
-                    PrefsUtils.saveSelectedPetId(context, pet.getId());
-                }
-            }
-        }
-        return pet;
-    }
-
     public static void createPet(Context context, String name, PetsType petsType) {
         final DataBase db = DataBase.getAppDatabase(context);
         Pet pet = new Pet(name, petsType);

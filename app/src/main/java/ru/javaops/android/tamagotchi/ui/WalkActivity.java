@@ -17,7 +17,6 @@ import android.widget.TextView;
 import ru.javaops.android.tamagotchi.R;
 import ru.javaops.android.tamagotchi.enums.PetsType;
 import ru.javaops.android.tamagotchi.model.Pet;
-import ru.javaops.android.tamagotchi.utils.PetUtils;
 import ru.javaops.android.tamagotchi.utils.SoundHelper;
 import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
@@ -25,7 +24,7 @@ import static android.view.View.TRANSLATION_X;
 import static android.view.View.TRANSLATION_Y;
 
 @SuppressLint("ClickableViewAccessibility")
-public class WalkActivity extends BaseActivity {
+public class WalkActivity extends BasePetActivity {
 
     private static final String SAVE_COUNT = "save_count";
 
@@ -60,10 +59,9 @@ public class WalkActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk);
         petView = findViewById(R.id.image_pet);
+        countTextView = findViewById(R.id.counter);
         SoundHelper.initialSoundPool(getApplicationContext());
-        initViews();
         initAnimatorListener();
-        initAnimation();
     }
 
     @Override
@@ -96,11 +94,16 @@ public class WalkActivity extends BaseActivity {
         countTextView.setText(String.valueOf(counter));
     }
 
+    @Override
+    protected void updateView(Pet pet) {
+        super.updateView(pet);
+        initViews();
+        initAnimation();
+    }
+
     private void initViews() {
-        countTextView = findViewById(R.id.counter);
         petView = findViewById(R.id.image_pet);
-        final Pet pet = PetUtils.getSelectedPet(getApplicationContext());
-        final PetsType petsType = pet.getPetsType();
+        final PetsType petsType = getPet().getPetsType();
         petView.setImageResource(petsType.getWalkDrawableResource());
         if (PetsType.DOG == petsType) {
             ViewGroup.LayoutParams params = petView.getLayoutParams();
