@@ -33,11 +33,16 @@ public class PetUtils {
         return NameCheckStatus.CORRECT;
     }
 
-    public static void createPet(Context context, String name, PetsType petsType) {
+    public static void createPet(final Context context, String name, PetsType petsType) {
         final DataBase db = DataBase.getAppDatabase(context);
-        Pet pet = new Pet(name, petsType);
-        long id = db.petDao().insert(pet);
-        pet.setId(id);
-        PrefsUtils.saveSelectedPetId(context, id);
+        final Pet pet = new Pet(name, petsType);
+        SaveUtils.getExecutor().submit(new Runnable() {
+            @Override
+            public void run() {
+                long id = db.petDao().insert(pet);
+                pet.setId(id);
+                PrefsUtils.saveSelectedPetId(context, id);
+            }
+        });
     }
 }

@@ -10,6 +10,7 @@ import java.util.Locale;
 
 import ru.javaops.android.tamagotchi.R;
 import ru.javaops.android.tamagotchi.ui.WalkActivity;
+import ru.javaops.android.tamagotchi.utils.SaveUtils;
 
 public class MainViewModel extends BasePetViewModel {
 
@@ -29,7 +30,12 @@ public class MainViewModel extends BasePetViewModel {
     public void lvlUp(View view) {
         if (getPetData().getValue() != null) {
             getPetData().getValue().incLvl();
-            getDb().petDao().update(getPetData().getValue());
+            SaveUtils.getExecutor().submit(new Runnable() {
+                @Override
+                public void run() {
+                    getDb().petDao().update(getPetData().getValue());
+                }
+            });
         }
     }
 
