@@ -1,38 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_walk"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <ImageView
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="ru.javaops.android.tamagotchi.viewmodel.WalkViewModel" />
+
+        <import type="android.view.View" />
+
+        <import type="ru.javaops.android.tamagotchi.model.Pet" />
+
+        <import type="ru.javaops.android.tamagotchi.enums.PetsType" />
+    </data>
+
+    <FrameLayout
+        android:id="@+id/layout_walk"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/background"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_walk" />
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/image_pet"
-        android:layout_width="@dimen/pet_size"
-        android:layout_height="@dimen/pet_size"
-        android:contentDescription="@string/pet" />
+        <ImageView
+            android:id="@+id/size"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/background"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_walk" />
 
-    <TextView
-        android:id="@+id/counter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/start_counter"
-        android:textColor="@color/red"
-        android:textSize="@dimen/title_txt_size"
-        android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/image_pet"
+            android:layout_width="@dimen/pet_size"
+            android:layout_height="@dimen/pet_size"
+            android:contentDescription="@string/pet"
+            app:animation="@{model.petData}"
+            app:imageResource="@{model.petData.petsType.walkDrawableResource}"
+            app:onTouchListener="@{model.onTouchListener}"
+            app:otherView="@{size}" />
 
-    <ImageButton
-        android:id="@+id/back"
-        android:layout_width="@dimen/round_btn_size"
-        android:layout_height="@dimen/round_btn_size"
-        android:layout_gravity="bottom"
-        android:layout_margin="@dimen/min_margin"
-        android:background="@drawable/home"
-        android:contentDescription="@string/to_home"
-        android:onClick="goBack" />
-</FrameLayout>
+        <TextView
+            android:id="@+id/counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{model.count}"
+            android:textColor="@color/red"
+            android:textSize="@dimen/title_txt_size"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="@dimen/round_btn_size"
+            android:layout_height="@dimen/round_btn_size"
+            android:layout_gravity="bottom"
+            android:layout_margin="@dimen/min_margin"
+            android:background="@drawable/home"
+            android:contentDescription="@string/to_home" />
+    </FrameLayout>
+</layout>
