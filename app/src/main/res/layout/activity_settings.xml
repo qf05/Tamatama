@@ -1,136 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/bookcase_header"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="ru.javaops.android.tamagotchi.viewmodel.SettingsViewModel" />
+
+        <import type="android.view.View" />
+
+        <import type="ru.javaops.android.tamagotchi.model.Pet" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:contentDescription="@string/background"
-        android:scaleType="fitXY"
-        android:src="@drawable/bookcase_header"
-        app:layout_constraintBottom_toTopOf="@+id/bookcase_shelf_01"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="1" />
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/bookcase_shelf_01"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:contentDescription="@string/background"
-        android:scaleType="fitXY"
-        android:src="@drawable/bookcase_shelf"
-        app:layout_constraintBottom_toTopOf="@+id/bookcase_shelf_02"
-        app:layout_constraintTop_toBottomOf="@+id/bookcase_header"
-        app:layout_constraintVertical_weight="2" />
+        <ImageView
+            android:id="@+id/bookcase_header"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:contentDescription="@string/background"
+            android:scaleType="fitXY"
+            android:src="@drawable/bookcase_header"
+            app:layout_constraintBottom_toTopOf="@+id/bookcase_shelf_01"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="1" />
 
-    <ImageView
-        android:id="@+id/bookcase_shelf_02"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:contentDescription="@string/background"
-        android:scaleType="fitXY"
-        android:src="@drawable/bookcase_shelf"
-        app:layout_constraintBottom_toTopOf="@+id/bookcase_shelf_03"
-        app:layout_constraintTop_toBottomOf="@+id/bookcase_shelf_01"
-        app:layout_constraintVertical_weight="2" />
+        <ImageView
+            android:id="@+id/bookcase_shelf_01"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:contentDescription="@string/background"
+            android:scaleType="fitXY"
+            android:src="@drawable/bookcase_shelf"
+            app:layout_constraintBottom_toTopOf="@+id/bookcase_shelf_02"
+            app:layout_constraintTop_toBottomOf="@+id/bookcase_header"
+            app:layout_constraintVertical_weight="2" />
 
-    <ImageView
-        android:id="@+id/bookcase_shelf_03"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:contentDescription="@string/background"
-        android:scaleType="fitXY"
-        android:src="@drawable/bookcase_shelf"
-        app:layout_constraintBottom_toTopOf="@+id/bookcase_last_shelf"
-        app:layout_constraintTop_toBottomOf="@+id/bookcase_shelf_02"
-        app:layout_constraintVertical_weight="2" />
+        <ImageView
+            android:id="@+id/bookcase_shelf_02"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:contentDescription="@string/background"
+            android:scaleType="fitXY"
+            android:src="@drawable/bookcase_shelf"
+            app:layout_constraintBottom_toTopOf="@+id/bookcase_shelf_03"
+            app:layout_constraintTop_toBottomOf="@+id/bookcase_shelf_01"
+            app:layout_constraintVertical_weight="2" />
 
-    <ImageView
-        android:id="@+id/bookcase_last_shelf"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:contentDescription="@string/background"
-        android:scaleType="fitXY"
-        android:src="@drawable/bookcase_last_shelf"
-        app:layout_constraintBottom_toTopOf="@+id/bookcase_footer"
-        app:layout_constraintTop_toBottomOf="@+id/bookcase_shelf_03"
-        app:layout_constraintVertical_weight="2" />
+        <ImageView
+            android:id="@+id/bookcase_shelf_03"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:contentDescription="@string/background"
+            android:scaleType="fitXY"
+            android:src="@drawable/bookcase_shelf"
+            app:layout_constraintBottom_toTopOf="@+id/bookcase_last_shelf"
+            app:layout_constraintTop_toBottomOf="@+id/bookcase_shelf_02"
+            app:layout_constraintVertical_weight="2" />
 
-    <ImageView
-        android:id="@+id/bookcase_footer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:contentDescription="@string/background"
-        android:scaleType="fitXY"
-        android:src="@drawable/bookcase_footer"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bookcase_last_shelf"
-        app:layout_constraintVertical_weight="1" />
+        <ImageView
+            android:id="@+id/bookcase_last_shelf"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:contentDescription="@string/background"
+            android:scaleType="fitXY"
+            android:src="@drawable/bookcase_last_shelf"
+            app:layout_constraintBottom_toTopOf="@+id/bookcase_footer"
+            app:layout_constraintTop_toBottomOf="@+id/bookcase_shelf_03"
+            app:layout_constraintVertical_weight="2" />
 
-    <Button
-        android:layout_width="@dimen/shell_btn_width"
-        android:layout_height="@dimen/shell_btn_height"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="@dimen/settings_btn_bottom_margin"
-        android:background="@drawable/button"
-        android:onClick="createPet"
-        android:text="@string/create_new_pet"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/bookcase_shelf_01"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageView
+            android:id="@+id/bookcase_footer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:contentDescription="@string/background"
+            android:scaleType="fitXY"
+            android:src="@drawable/bookcase_footer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bookcase_last_shelf"
+            app:layout_constraintVertical_weight="1" />
 
-    <Button
-        android:layout_width="@dimen/shell_btn_width"
-        android:layout_height="@dimen/shell_btn_height"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="@dimen/settings_btn_bottom_margin"
-        android:background="@drawable/button"
-        android:onClick="changePet"
-        android:text="@string/change_pet"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/bookcase_shelf_02"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:layout_width="@dimen/shell_btn_width"
+            android:layout_height="@dimen/shell_btn_height"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="@dimen/settings_btn_bottom_margin"
+            android:background="@drawable/button"
+            android:onClick="@{model::createPet}"
+            android:text="@string/create_new_pet"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/bookcase_shelf_01"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:layout_width="@dimen/shell_btn_width"
-        android:layout_height="@dimen/shell_btn_height"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="@dimen/settings_btn_bottom_margin"
-        android:background="@drawable/button"
-        android:onClick="changePetName"
-        android:text="@string/change_name"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/bookcase_shelf_03"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:layout_width="@dimen/shell_btn_width"
+            android:layout_height="@dimen/shell_btn_height"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="@dimen/settings_btn_bottom_margin"
+            android:background="@drawable/button"
+            android:onClick="@{model::changePet}"
+            android:text="@string/change_pet"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/bookcase_shelf_02"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:layout_width="@dimen/shell_btn_width"
-        android:layout_height="@dimen/shell_btn_height"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="@dimen/settings_last_btn_bottom_margin"
-        android:background="@drawable/button"
-        android:onClick="deletePet"
-        android:text="@string/delete_pet"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/bookcase_last_shelf"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:layout_width="@dimen/shell_btn_width"
+            android:layout_height="@dimen/shell_btn_height"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="@dimen/settings_btn_bottom_margin"
+            android:background="@drawable/button"
+            android:onClick="@{model::changePetName}"
+            android:text="@string/change_name"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/bookcase_shelf_03"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageButton
-        android:id="@+id/back"
-        android:layout_width="@dimen/round_btn_size"
-        android:layout_height="@dimen/round_btn_size"
-        android:layout_gravity="bottom"
-        android:layout_margin="@dimen/min_margin"
-        android:background="@drawable/back"
-        android:contentDescription="@string/back"
-        android:onClick="goBack"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:layout_width="@dimen/shell_btn_width"
+            android:layout_height="@dimen/shell_btn_height"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="@dimen/settings_last_btn_bottom_margin"
+            android:background="@drawable/button"
+            android:onClick="@{model::deletePet}"
+            android:text="@string/delete_pet"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/bookcase_last_shelf"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="@dimen/round_btn_size"
+            android:layout_height="@dimen/round_btn_size"
+            android:layout_gravity="bottom"
+            android:layout_margin="@dimen/min_margin"
+            android:background="@drawable/back"
+            android:contentDescription="@string/back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
