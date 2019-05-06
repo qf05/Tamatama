@@ -5,34 +5,33 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import androidx.databinding.DataBindingUtil;
 
 import ru.javaops.android.tamagotchi.R;
-import ru.javaops.android.tamagotchi.db.DataBase;
-import ru.javaops.android.tamagotchi.model.Pet;
+import ru.javaops.android.tamagotchi.databinding.ActivityMainBinding;
 import ru.javaops.android.tamagotchi.utils.SoundHelper;
+import ru.javaops.android.tamagotchi.viewmodel.MainViewModel;
 
 public class MainActivity extends BasePetActivity {
 
-    private DataBase db;
+    private MainViewModel model;
     private MenuItem soundCheckbox;
-    private TextView petName;
-    private ImageView petView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        db = DataBase.getAppDatabase(this);
-        initViews();
+        model = createModel(MainViewModel.class);
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.setLifecycleOwner(this);
+        binding.setModel(model);
     }
 
     @Override
-    protected void updateView(Pet pet) {
-        super.updateView(pet);
-        petName.setText(getPet().getName());
-        petView.setImageResource(getPet().getPetsType().getPetDrawableResource());
+    protected void onResume() {
+        super.onResume();
+        model.notifyChange();
     }
 
     @Override
@@ -67,28 +66,11 @@ public class MainActivity extends BasePetActivity {
 
     @Override
     public void goBack(View view) {
-        onResume();
-    }
-
-    public void goWalk(View view) {
-        if (getPet() != null) {
-            Intent intent = new Intent(MainActivity.this, WalkActivity.class);
-            startActivity(intent);
-        }
+        model.notifyChange();
     }
 
     public void onButtonClick(View view) {
         Intent intent = new Intent(MainActivity.this, OtherActivity.class);
         startActivity(intent);
-    }
-
-    public void lvlUp(View view) {
-        getPet().incLvl();
-        db.petDao().update(getPet());
-    }
-
-    private void initViews() {
-        petName = findViewById(R.id.pet_name);
-        petView = findViewById(R.id.pet_view);
     }
 }
