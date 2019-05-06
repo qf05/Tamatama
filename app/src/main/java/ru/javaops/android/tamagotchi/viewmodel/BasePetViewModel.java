@@ -63,6 +63,10 @@ public abstract class BasePetViewModel extends BaseViewModel {
         openCreatePetDialogData = new MutableLiveData<>();
     }
 
+    public void resetOpenPetDialogData() {
+        this.openCreatePetDialogData = new MutableLiveData<>();
+    }
+
     private void loadSelectedPet() {
         final long petId = PrefsUtils.getSelectedPetId(getApplication());
         if (petData != null) {

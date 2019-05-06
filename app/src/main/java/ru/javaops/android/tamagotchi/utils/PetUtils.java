@@ -18,7 +18,7 @@ public class PetUtils {
     }
 
     public static NameCheckStatus checkName(String name) {
-        if (name.isEmpty() || name.replace(" ", "").isEmpty()) {
+        if (name == null || name.isEmpty() || name.replace(" ", "").isEmpty()) {
             return NameCheckStatus.EMPTY;
         }
         if (name.trim().length() < MIN_NAME_LENGTH) {

@@ -1,9 +1,9 @@
 package ru.javaops.android.tamagotchi.ui;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import ru.javaops.android.tamagotchi.utils.ViewHelper;
 import ru.javaops.android.tamagotchi.viewmodel.BasePetViewModel;
 
 public abstract class BasePetActivity extends BaseActivity {
@@ -20,7 +20,16 @@ public abstract class BasePetActivity extends BaseActivity {
         return new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                ViewHelper.showCreatePetDialog(BasePetActivity.this, aBoolean);
+                if (!aBoolean && BasePetActivity.this instanceof SettingsActivity) {
+                    finish();
+                } else {
+                    FragmentManager manager = getSupportFragmentManager();
+                    if (manager.findFragmentByTag("dialogCreatePet") == null) {
+                        CreatePetDialogFragment dialog = new CreatePetDialogFragment();
+                        dialog.setCancelable(false);
+                        dialog.show(manager, "dialogCreatePet");
+                    }
+                }
             }
         };
     }
