@@ -17,6 +17,7 @@ public class SoundHelper {
     private static SoundPool soundPool;
     private static final Map<PetsType, Integer> soundMap = new EnumMap<>(PetsType.class);
     private static final SparseBooleanArray soundCheckMap = new SparseBooleanArray();
+    private static boolean soundOn = true;
 
     private SoundHelper() {
     }
@@ -43,14 +44,22 @@ public class SoundHelper {
         }
     }
 
-    public static void play(PetsType petsType) {
+    public static synchronized void play(PetsType petsType) {
         Integer sampleId = soundMap.get(petsType);
-        if (sampleId != null && soundCheckMap.get(sampleId)) {
+        if (soundOn && sampleId != null && soundCheckMap.get(sampleId)) {
             soundPool.play(sampleId, 1, 1, 2, 0, 1);
         }
     }
 
-    public static void destroySoundPool() {
+    public static synchronized boolean isSoundOn() {
+        return soundOn;
+    }
+
+    public static synchronized void switchSoundState() {
+        soundOn = !soundOn;
+    }
+
+    public static synchronized void destroySoundPool() {
         if (soundPool != null) {
             soundPool.release();
             soundPool = null;
