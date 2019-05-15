@@ -27,6 +27,7 @@ public class OtherActivity extends AppCompatActivity {
     private float height;
     private float width;
     private float yDelta;
+    private AnimationSet animationSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,15 @@ public class OtherActivity extends AppCompatActivity {
         initAnimation();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (animationSet != null) {
+            animationSet.cancel();
+        }
+        finish();
+    }
+
     private void initViews() {
         textView = findViewById(R.id.title_hello);
         findViewById(R.id.button_home)
@@ -46,6 +56,7 @@ public class OtherActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent(OtherActivity.this, MainActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 });
     }
@@ -79,7 +90,7 @@ public class OtherActivity extends AppCompatActivity {
 
     private void initAnimation() {
         final Animation helloAnimation = AnimationUtils.loadAnimation(this, R.anim.hello);
-        final AnimationSet animationSet = new AnimationSet(true);
+        animationSet = new AnimationSet(true);
         final FrameLayout frameLayout = findViewById(R.id.layout);
         ViewHelper.executeAfterViewDrawing(textView, new Runnable() {
             @Override
