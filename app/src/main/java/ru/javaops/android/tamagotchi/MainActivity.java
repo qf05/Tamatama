@@ -7,6 +7,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import static ru.javaops.android.tamagotchi.WalkActivity.INTENT_PET_TYPE;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -36,7 +38,10 @@ public class MainActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Button button = (Button) v;
+                Intent intent = new Intent(MainActivity.this, WalkActivity.class);
+                intent.putExtra(INTENT_PET_TYPE, button.getText().toString().toUpperCase());
+                startActivity(intent);
             }
         };
     }
