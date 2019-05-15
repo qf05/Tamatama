@@ -4,6 +4,7 @@
 
     <dimen name="title_hello_main">50sp</dimen>
     <dimen name="title_hello_other">40sp</dimen>
+    <dimen name="title_txt_size">30sp</dimen>
 
     <dimen name="round_btn_size">50dp</dimen>
     <dimen name="pet_size">70dp</dimen>
