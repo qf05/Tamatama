@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.enums.NameCheckStatus;
 import ru.javaops.android.tamagotchi.enums.PetsType;
 import ru.javaops.android.tamagotchi.model.Pet;
@@ -24,12 +25,14 @@ public class SettingsActivity extends AppCompatActivity {
     private AlertDialog dialog;
     private View.OnClickListener okCreateListener;
     private View.OnClickListener cancelListener;
+    private DataBase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         initListeners();
+        db = DataBase.getAppDatabase(getApplicationContext());
     }
 
     public void goBack(View view) {
@@ -76,7 +79,10 @@ public class SettingsActivity extends AppCompatActivity {
                     PetsType[] petsTypes = PetsType.values();
                     PetsType petsType = petsTypes[spinnerCreate.getSelectedItemPosition()];
                     Log.d("SELECTED_PET", petsType.toString() + "   " + name);
-                    PetUtils.setSelectedPet(new Pet(name, petsType));
+                    Pet pet = new Pet(name, petsType);
+                    long id = db.petDao().insert(pet);
+                    pet.setId(id);
+                    PetUtils.setSelectedPet(pet);
                     dialog.cancel();
                     finish();
                 }
