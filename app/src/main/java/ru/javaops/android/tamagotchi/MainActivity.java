@@ -34,19 +34,7 @@ public class MainActivity extends AppCompatActivity {
         selectedPet = PetUtils.getSelectedPet(getApplicationContext());
         if (selectedPet != null) {
             petName.setText(selectedPet.getName());
-            int imageResource = 0;
-            switch (selectedPet.getPetsType()) {
-                case CAT:
-                    imageResource = R.drawable.cat_small;
-                    break;
-                case DOG:
-                    imageResource = R.drawable.dog_small;
-                    break;
-                case CTHULHU:
-                    imageResource = R.drawable.cthulhu_small;
-                    break;
-            }
-            petView.setImageResource(imageResource);
+            petView.setImageResource(selectedPet.getPetsType().getPetDrawableResource());
         }
     }
 

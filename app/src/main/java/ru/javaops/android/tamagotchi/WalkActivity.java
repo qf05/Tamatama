@@ -109,7 +109,7 @@ public class WalkActivity extends AppCompatActivity {
         petView = findViewById(R.id.image_pet);
         final Pet pet = PetUtils.getSelectedPet(getApplicationContext());
         final PetsType petsType = pet.getPetsType();
-        petView.setImageResource(petsType.getDrawableResource());
+        petView.setImageResource(petsType.getWalkDrawableResource());
         if (PetsType.DOG == petsType) {
             ViewGroup.LayoutParams params = petView.getLayoutParams();
             params.height = (int) (petView.getLayoutParams().height * DOG_VIEW_MAGNIFICATION);
