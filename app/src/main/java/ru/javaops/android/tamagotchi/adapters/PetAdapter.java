@@ -1,14 +1,17 @@
 package ru.javaops.android.tamagotchi.adapters;
 
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,13 +20,13 @@ import ru.javaops.android.tamagotchi.model.Pet;
 
 public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
 
-    // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(long itemId);
     }
 
     private ItemClickListener clickListener;
     private List<Pet> pets;
+    private SparseBooleanArray deleteMap = new SparseBooleanArray();
 
     public PetAdapter(List<Pet> pets, ItemClickListener itemClickListener) {
         this.pets = pets;
@@ -45,6 +48,10 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
                 holder.itemView.getContext().getString(R.string.level_number),
                 pets.get(position).getLvl()));
         holder.petIcon.setImageResource(pets.get(position).getPetsType().getIconDrawableResource());
+        if (clickListener == null) {
+            holder.checkBox.setVisibility(View.VISIBLE);
+            holder.checkBox.setChecked(deleteMap.get(position, false));
+        }
     }
 
     @Override
@@ -52,14 +59,37 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
         return pets.size();
     }
 
-    public Pet getItem(int id) {
-        return pets.get(id);
+    public void updateData(List<Pet> pets) {
+        this.pets.clear();
+        this.pets.addAll(pets);
+        notifyDataSetChanged();
+    }
+
+    public List<Pet> getDeleteList() {
+        List<Pet> deleteList = new ArrayList<>();
+        for (int i = 0; i < pets.size(); i++) {
+            if (deleteMap.get(i, false)) {
+                deleteList.add(pets.get(i));
+            }
+        }
+        return deleteList;
+    }
+
+    public void clearDeleteMap() {
+        deleteMap.clear();
+    }
+
+    private void putDeleteMap(int position) {
+        boolean check = deleteMap.get(position, false);
+        deleteMap.put(position, !check);
+        notifyItemChanged(position);
     }
 
     class PetViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView petName;
         TextView petLvl;
         ImageView petIcon;
+        CheckBox checkBox;
 
         PetViewHolder(View view) {
             super(view);
@@ -67,11 +97,16 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
             petName = view.findViewById(R.id.pet_name);
             petLvl = view.findViewById(R.id.pet_lvl);
             petIcon = view.findViewById(R.id.pet_icon);
+            checkBox = view.findViewById(R.id.checkbox_delete);
         }
 
         @Override
         public void onClick(View view) {
-            if (clickListener != null) clickListener.onItemClick(view, getAdapterPosition());
+            if (clickListener != null) {
+                clickListener.onItemClick(pets.get(getAdapterPosition()).getId());
+            } else {
+                putDeleteMap(getAdapterPosition());
+            }
         }
     }
 }
