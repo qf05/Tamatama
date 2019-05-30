@@ -1,6 +1,5 @@
 package ru.javaops.android.tamagotchi;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Spinner;
@@ -36,8 +35,6 @@ public class ChangePetActivity extends AppCompatActivity implements PetAdapter.I
     }
 
     public void goBack(View view) {
-        Intent intent = new Intent(ChangePetActivity.this, SettingsActivity.class);
-        startActivity(intent);
         finish();
     }
 
