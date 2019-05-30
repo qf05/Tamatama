@@ -11,13 +11,10 @@ import android.widget.TextView;
 import ru.javaops.android.tamagotchi.R;
 import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.model.Pet;
-import ru.javaops.android.tamagotchi.utils.PetUtils;
 import ru.javaops.android.tamagotchi.utils.SoundHelper;
-import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BasePetActivity {
 
-    private Pet selectedPet;
     private DataBase db;
     private MenuItem soundCheckbox;
     private TextView petName;
@@ -32,15 +29,10 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        selectedPet = PetUtils.getSelectedPet(getApplicationContext());
-        if (selectedPet != null) {
-            petName.setText(selectedPet.getName());
-            petView.setImageResource(selectedPet.getPetsType().getPetDrawableResource());
-        } else {
-            ViewHelper.showCreatePetDialog(this, false);
-        }
+    protected void updateView(Pet pet) {
+        super.updateView(pet);
+        petName.setText(getPet().getName());
+        petView.setImageResource(getPet().getPetsType().getPetDrawableResource());
     }
 
     @Override
@@ -79,7 +71,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void toWalk(View view) {
-        if (selectedPet != null) {
+        if (getPet() != null) {
             Intent intent = new Intent(MainActivity.this, WalkActivity.class);
             startActivity(intent);
         }
@@ -91,8 +83,8 @@ public class MainActivity extends BaseActivity {
     }
 
     public void lvlUp(View view) {
-        selectedPet.incLvl();
-        db.petDao().update(selectedPet);
+        getPet().incLvl();
+        db.petDao().update(getPet());
     }
 
     private void initViews() {

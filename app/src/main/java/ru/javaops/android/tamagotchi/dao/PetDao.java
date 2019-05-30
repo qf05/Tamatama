@@ -1,5 +1,6 @@
 package ru.javaops.android.tamagotchi.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -16,10 +17,10 @@ public interface PetDao {
     List<Pet> getAll();
 
     @Query("SELECT * FROM pet WHERE id = :id")
-    Pet findById(long id);
+    LiveData<Pet> findById(long id);
 
     @Query("SELECT * FROM pet LIMIT 1")
-    Pet findAny();
+    LiveData<Pet> findAny();
 
     @Insert
     long insert(Pet pet);

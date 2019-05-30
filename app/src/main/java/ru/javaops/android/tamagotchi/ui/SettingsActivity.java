@@ -16,7 +16,7 @@ import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.utils.PetUtils;
 import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
-public class SettingsActivity extends BaseActivity {
+public class SettingsActivity extends BasePetActivity {
 
     private TextView selectedPetName;
     private EditText inputName;
@@ -51,7 +51,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
     public void changePetName(View view) {
-        final Pet pet = PetUtils.getSelectedPet(this);
+        final Pet pet = getPet();
         if (pet != null) {
             View layout = getLayoutInflater().inflate(R.layout.dialog_change_name, null);
             initViews(layout);
