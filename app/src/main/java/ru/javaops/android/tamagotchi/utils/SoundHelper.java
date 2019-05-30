@@ -12,6 +12,7 @@ import ru.javaops.android.tamagotchi.R;
 import ru.javaops.android.tamagotchi.enums.PetsType;
 
 public class SoundHelper {
+
     private static final int MAX_STREAMS_SIZE = 1;
 
     private static SoundPool soundPool;
@@ -23,6 +24,7 @@ public class SoundHelper {
     }
 
     public synchronized static void initialSoundPool(final Context context) {
+        soundOn = PrefsUtils.getSoundState(context);
         if (soundPool == null) {
             AudioAttributes attributes = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_GAME)
@@ -55,8 +57,9 @@ public class SoundHelper {
         return soundOn;
     }
 
-    public static synchronized void switchSoundState() {
+    public static synchronized void switchSoundState(Context context) {
         soundOn = !soundOn;
+        PrefsUtils.saveSoundState(context, soundOn);
     }
 
     public static synchronized void destroySoundPool() {
