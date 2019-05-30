@@ -1,70 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <data>
+
+        <variable
+            name="model"
+            type="ru.javaops.android.tamagotchi.viewmodel.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/background"
-        android:scaleType="centerCrop"
-        android:src="@drawable/android_background" />
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/pet_view"
-        android:layout_width="@dimen/pet_main_size"
-        android:layout_height="@dimen/pet_main_size"
-        android:contentDescription="@string/pet"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/background"
+            android:scaleType="centerCrop"
+            android:src="@drawable/android_background" />
 
-    <TextView
-        android:id="@+id/pet_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/main_margin"
-        android:gravity="center"
-        android:text="@string/hello"
-        android:textColor="@color/white"
-        android:textSize="@dimen/title_hello_main"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/pet_view"
+            android:layout_width="@dimen/pet_main_size"
+            android:layout_height="@dimen/pet_main_size"
+            android:contentDescription="@string/pet"
+            android:scaleType="fitCenter"
+            app:imageResource="@{model.petData.petsType.petDrawableResource}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_hello"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_margin="@dimen/main_margin"
-        android:onClick="onButtonClick"
-        android:text="@string/hello"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/pet_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/main_margin"
+            android:gravity="center"
+            android:text="@{model.petData.name}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_hello_main"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_margin="@dimen/main_margin"
-        android:onClick="lvlUp"
-        android:text="@string/lvl_up"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/pet_lvl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/main_margin"
+            android:text="@{model.lvl}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/main_txt_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pet_name" />
 
-    <ImageButton
-        android:id="@+id/to_walk"
-        android:layout_width="@dimen/round_btn_size"
-        android:layout_height="@dimen/round_btn_size"
-        android:layout_margin="@dimen/round_action_btn_margin"
-        android:background="@drawable/walk"
-        android:contentDescription="@string/to_walk"
-        android:onClick="toWalk"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/button_hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="@dimen/main_margin"
+            android:onClick="onButtonClick"
+            android:text="@string/hello"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_margin="@dimen/main_margin"
+            android:onClick="@{v->model.lvlUp()}"
+            android:text="@string/lvl_up"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/to_walk"
+            android:layout_width="@dimen/round_btn_size"
+            android:layout_height="@dimen/round_btn_size"
+            android:layout_margin="@dimen/round_action_btn_margin"
+            android:background="@drawable/walk"
+            android:contentDescription="@string/to_walk"
+            android:onClick="@{v->model.toWalk()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -94,9 +94,10 @@ public class WalkActivity extends BasePetActivity {
         countTextView.setText(String.valueOf(counter));
     }
 
-    @Override
+    //    До следующего патча отображение питомца в этом классе отключено.
+    @Deprecated
     protected void updateView(Pet pet) {
-        super.updateView(pet);
+//        super.updateView(pet);
         initViews();
         initAnimation();
     }
