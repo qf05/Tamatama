@@ -7,11 +7,13 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import ru.javaops.android.tamagotchi.adapters.MySpinnerAdapter;
 import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.enums.NameCheckStatus;
 import ru.javaops.android.tamagotchi.enums.PetsType;
@@ -48,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
         inputName = layout.findViewById(R.id.input_name);
         layout.findViewById(R.id.ok_create).setOnClickListener(okCreateListener);
         layout.findViewById(R.id.cancel_create).setOnClickListener(cancelListener);
-
+        initSpinner(layout);
         dialog = new AlertDialog.Builder(this)
                 .setView(layout)
                 .setCancelable(false)
@@ -103,5 +105,13 @@ public class SettingsActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(this, messageId, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
+    }
+
+    private void initSpinner(View layout) {
+        Spinner spinner = layout.findViewById(R.id.input_type_pet);
+        String[] stringArray = getResources().getStringArray(R.array.pets);
+        SpinnerAdapter spinnerAdapter =
+                new MySpinnerAdapter(this, stringArray);
+        spinner.setAdapter(spinnerAdapter);
     }
 }

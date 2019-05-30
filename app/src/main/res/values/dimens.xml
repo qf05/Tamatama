@@ -17,6 +17,7 @@
     <dimen name="shell_btn_width">200dp</dimen>
     <dimen name="pet_main_size">300dp</dimen>
     <dimen name="pet_icon_size">60dp</dimen>
+    <dimen name="pet_small_icon">30dp</dimen>
 
     <dimen name="card_radius_corner">10dp</dimen>
     <dimen name="card_elevation">5dp</dimen>

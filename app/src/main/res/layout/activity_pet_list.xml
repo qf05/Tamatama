@@ -49,8 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/list_header"
-        android:layout_marginStart="@dimen/min_margin"
-        android:layout_marginTop="@dimen/min_margin"
+        android:layout_marginStart="@dimen/indent_margin"
         android:layout_toEndOf="@+id/label_list_sort"
         android:entries="@array/sort" />
 
