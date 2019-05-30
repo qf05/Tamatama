@@ -1,4 +1,4 @@
-package ru.javaops.android.tamagotchi;
+package ru.javaops.android.tamagotchi.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,14 +8,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import ru.javaops.android.tamagotchi.R;
 import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.utils.PetUtils;
 import ru.javaops.android.tamagotchi.utils.SoundHelper;
+import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private Pet selectedPet;
     private DataBase db;
@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         if (selectedPet != null) {
             petName.setText(selectedPet.getName());
             petView.setImageResource(selectedPet.getPetsType().getPetDrawableResource());
+        } else {
+            ViewHelper.showCreatePetDialog(this, false);
         }
     }
 
@@ -71,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void initViews() {
-        petName = findViewById(R.id.pet_name);
-        petView = findViewById(R.id.pet_view);
+    @Override
+    public void goBack(View view) {
+        onResume();
     }
 
     public void toWalk(View view) {
@@ -91,5 +93,10 @@ public class MainActivity extends AppCompatActivity {
     public void lvlUp(View view) {
         selectedPet.incLvl();
         db.petDao().update(selectedPet);
+    }
+
+    private void initViews() {
+        petName = findViewById(R.id.pet_name);
+        petView = findViewById(R.id.pet_view);
     }
 }

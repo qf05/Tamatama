@@ -1,4 +1,4 @@
-package ru.javaops.android.tamagotchi;
+package ru.javaops.android.tamagotchi.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -14,8 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import ru.javaops.android.tamagotchi.R;
 import ru.javaops.android.tamagotchi.enums.PetsType;
 import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.utils.PetUtils;
@@ -26,7 +25,7 @@ import static android.view.View.TRANSLATION_X;
 import static android.view.View.TRANSLATION_Y;
 
 @SuppressLint("ClickableViewAccessibility")
-public class WalkActivity extends AppCompatActivity {
+public class WalkActivity extends BaseActivity {
 
     private static final String SAVE_COUNT = "save_count";
 
@@ -97,10 +96,6 @@ public class WalkActivity extends AppCompatActivity {
         countTextView.setText(String.valueOf(counter));
     }
 
-    public void goHome(View view) {
-        finish();
-    }
-
     private void initViews() {
         countTextView = findViewById(R.id.counter);
         petView = findViewById(R.id.image_pet);
@@ -154,7 +149,7 @@ public class WalkActivity extends AppCompatActivity {
         ViewHelper.executeAfterViewDrawing(petView, new Runnable() {
             @Override
             public void run() {
-                final FrameLayout layout = findViewById(R.id.layoutWalk);
+                final FrameLayout layout = findViewById(R.id.layout_walk);
                 int radius = (int) (Math.hypot(petView.getHeight(), petView.getWidth()) / 2);
                 borderWidth = radius - petView.getWidth() / 2;
                 borderHeight = radius - petView.getHeight() / 2;

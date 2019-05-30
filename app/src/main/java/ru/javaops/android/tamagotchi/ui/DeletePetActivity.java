@@ -1,21 +1,19 @@
-package ru.javaops.android.tamagotchi;
+package ru.javaops.android.tamagotchi.ui;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import ru.javaops.android.tamagotchi.R;
 import ru.javaops.android.tamagotchi.adapters.MySpinnerAdapter;
 import ru.javaops.android.tamagotchi.adapters.PetAdapter;
 import ru.javaops.android.tamagotchi.db.DataBase;
@@ -23,7 +21,7 @@ import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.utils.CompareUtils;
 import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
-public class DeletePetActivity extends AppCompatActivity {
+public class DeletePetActivity extends BaseActivity {
 
     private Spinner sortSpinner;
     private PetAdapter adapter;
@@ -64,13 +62,9 @@ public class DeletePetActivity extends AppCompatActivity {
                     adapter.clearDeleteMap();
                     List<Pet> petList = db.petDao().getAll();
                     adapter.updateData(petList, sortSpinner.getSelectedItemPosition());
+                    makeMessage(getResources().getQuantityString(R.plurals.was_delete_plurals,
+                            deleteList.size(), deleteList.size()));
                     dialog.cancel();
-                    Toast toast = Toast.makeText(DeletePetActivity.this,
-                            getResources().getQuantityString(R.plurals.was_delete_plurals,
-                                    deleteList.size(), deleteList.size()),
-                            Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
                 }
             });
 
@@ -99,9 +93,9 @@ public class DeletePetActivity extends AppCompatActivity {
         sortSpinner.setOnItemSelectedListener(CompareUtils.getSpinnerClickListener(adapter, pets));
     }
 
-    public void goBack(View view) {
-        finish();
-    }
+//    public void goBack(View view) {
+//        finish();
+//    }
 
     private void initSpinner() {
         Spinner spinner = findViewById(R.id.spinner_sort);
