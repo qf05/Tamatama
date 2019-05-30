@@ -15,6 +15,7 @@ public abstract class BaseDaoTest {
 
     private DataBase db;
     PetDao petDao;
+    HistoryDao historyDao;
 
     @Before
     public void createDb() {
@@ -23,6 +24,7 @@ public abstract class BaseDaoTest {
                 DataBase.class)
                 .build();
         petDao = db.petDao();
+        historyDao = db.historyDao();
         populateDb();
     }
 
