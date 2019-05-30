@@ -15,6 +15,7 @@ import ru.javaops.android.tamagotchi.adapters.MySpinnerAdapter;
 import ru.javaops.android.tamagotchi.adapters.PetAdapter;
 import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.model.Pet;
+import ru.javaops.android.tamagotchi.utils.CompareUtils;
 import ru.javaops.android.tamagotchi.utils.PrefsUtils;
 import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
@@ -24,7 +25,7 @@ public class ChangePetActivity extends AppCompatActivity implements PetAdapter.I
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_list);
-        initRecycler();
+        initViews();
         initSpinner();
     }
 
@@ -40,13 +41,16 @@ public class ChangePetActivity extends AppCompatActivity implements PetAdapter.I
         finish();
     }
 
-    private void initRecycler() {
+    private void initViews() {
         final RecyclerView rv = findViewById(R.id.pets_rv);
         ViewHelper.setParametersRv(ChangePetActivity.this, rv);
 
         final List<Pet> pets = DataBase.getAppDatabase(getApplicationContext()).petDao().getAll();
-        PetAdapter adapter = new PetAdapter(pets, this);
+        final PetAdapter adapter = new PetAdapter(pets, this);
         rv.setAdapter(adapter);
+
+        Spinner sortSpinner = findViewById(R.id.spinner_sort);
+        sortSpinner.setOnItemSelectedListener(CompareUtils.getSpinnerClickListener(adapter, pets));
     }
 
     private void initSpinner() {

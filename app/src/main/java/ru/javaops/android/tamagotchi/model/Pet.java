@@ -102,6 +102,10 @@ public class Pet {
         this.lvl = lvl;
     }
 
+    public void incLvl() {
+        lvl++;
+    }
+
     public int getHp() {
         return hp;
     }
