@@ -17,10 +17,12 @@ import ru.javaops.android.tamagotchi.enums.PetsType;
 public class MySpinnerAdapter extends ArrayAdapter<String> {
 
     private String[] items;
+    private boolean isCreate;
     private int margin;
 
-    public MySpinnerAdapter(Context context, String[] items) {
+    public MySpinnerAdapter(Context context, String[] items, boolean isCreate) {
         super(context, R.layout.item_spinner, items);
+        this.isCreate = isCreate;
         this.items = items;
         margin = (int) context.getResources().getDimension(R.dimen.min_margin);
     }
@@ -39,9 +41,12 @@ public class MySpinnerAdapter extends ArrayAdapter<String> {
     private View getPetView(int position, ViewGroup parent, boolean isDrop) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_spinner, null, false);
+
         TextView textView = view.findViewById(R.id.spinner_text);
         textView.setText(items[position]);
-        setImage(textView, position);
+        if (isCreate) {
+            setImage(textView, position);
+        }
         if (isDrop) {
             setLayoutParams(textView);
         }

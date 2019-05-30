@@ -7,6 +7,8 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import ru.javaops.android.tamagotchi.adapters.MySpinnerAdapter;
 import ru.javaops.android.tamagotchi.adapters.PetAdapter;
 import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.model.Pet;
@@ -33,6 +36,7 @@ public class DeletePetActivity extends AppCompatActivity {
         db = DataBase.getAppDatabase(DeletePetActivity.this);
         pets = db.petDao().getAll();
         initViews();
+        initSpinner();
     }
 
     @Override
@@ -94,5 +98,13 @@ public class DeletePetActivity extends AppCompatActivity {
         Intent intent = new Intent(DeletePetActivity.this, SettingsActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void initSpinner() {
+        Spinner spinner = findViewById(R.id.spinner_sort);
+        String[] stringArray = getResources().getStringArray(R.array.sort);
+        SpinnerAdapter spinnerAdapter =
+                new MySpinnerAdapter(this, stringArray, false);
+        spinner.setAdapter(spinnerAdapter);
     }
 }

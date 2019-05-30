@@ -161,7 +161,7 @@ public class SettingsActivity extends AppCompatActivity {
         Spinner spinner = layout.findViewById(R.id.input_type_pet);
         String[] stringArray = getResources().getStringArray(R.array.pets);
         SpinnerAdapter spinnerAdapter =
-                new MySpinnerAdapter(this, stringArray);
+                new MySpinnerAdapter(this, stringArray, true);
         spinner.setAdapter(spinnerAdapter);
     }
 }
