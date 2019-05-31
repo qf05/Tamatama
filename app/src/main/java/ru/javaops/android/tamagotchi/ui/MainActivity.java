@@ -1,9 +1,6 @@
 package ru.javaops.android.tamagotchi.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
@@ -23,7 +20,6 @@ import ru.javaops.android.tamagotchi.viewmodel.MainViewModel;
 public class MainActivity extends BasePetActivity implements PetAdapter.ItemClickListener {
 
     private MainViewModel model;
-    private MenuItem soundCheckbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,36 +39,6 @@ public class MainActivity extends BasePetActivity implements PetAdapter.ItemClic
     protected void onResume() {
         super.onResume();
         model.notifyChange();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        soundCheckbox = menu.findItem(R.id.off_sound);
-        soundCheckbox.setChecked(SoundHelper.isSoundOn());
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.pet_settings:
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.alarm_settings:
-                break;
-            case R.id.show_history:
-                break;
-            case R.id.off_sound:
-                SoundHelper.switchSoundState(this);
-                soundCheckbox.setChecked(SoundHelper.isSoundOn());
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
     }
 
     @Override

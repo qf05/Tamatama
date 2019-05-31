@@ -22,6 +22,7 @@ import java.util.Objects;
 import ru.javaops.android.tamagotchi.R;
 import ru.javaops.android.tamagotchi.adapters.PetAdapter;
 import ru.javaops.android.tamagotchi.model.Pet;
+import ru.javaops.android.tamagotchi.ui.SettingsActivity;
 import ru.javaops.android.tamagotchi.ui.WalkActivity;
 import ru.javaops.android.tamagotchi.utils.ExecutorUtils;
 
@@ -74,6 +75,14 @@ public class MainViewModel extends BasePetViewModel {
     public void toWalk() {
         if (getPetData().getValue() != null) {
             Intent intent = new Intent(getApplication(), WalkActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getApplication().startActivity(intent);
+        }
+    }
+
+    public void settings() {
+        if (getPetData().getValue() != null) {
+            Intent intent = new Intent(getApplication(), SettingsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             getApplication().startActivity(intent);
         }

@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/background"
             android:scaleType="centerCrop"
-            android:src="@drawable/android_background" />
+            android:src="@drawable/main_background" />
 
         <ImageView
             android:id="@+id/pet_view"
@@ -39,7 +39,10 @@
             android:id="@+id/pet_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/main_margin"
+            android:layout_marginStart="@dimen/indent_margin"
+            android:layout_marginEnd="@dimen/indent_margin"
+            android:layout_marginTop="@dimen/indent_margin"
+            android:layout_marginBottom="@dimen/min_margin"
             android:gravity="center"
             android:text="@{model.petData.name}"
             android:textColor="@color/white"
@@ -51,7 +54,7 @@
             android:id="@+id/pet_lvl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/main_margin"
+            android:layout_marginEnd="@dimen/main_margin"
             android:text="@{model.lvl}"
             android:textColor="@color/white"
             android:textSize="@dimen/main_txt_size"
@@ -82,6 +85,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/settings"
+            android:layout_width="@dimen/round_btn_size"
+            android:layout_height="@dimen/round_btn_size"
+            android:layout_margin="@dimen/round_action_btn_margin"
+            android:background="@drawable/settings"
+            android:contentDescription="@string/to_walk"
+            android:onClick="@{v->model.settings()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pet_lvl" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/view_pets"
