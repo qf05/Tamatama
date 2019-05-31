@@ -28,7 +28,6 @@ public abstract class DataBase extends RoomDatabase {
             synchronized (LOCK) {
                 DB_INSTANCE = Room.databaseBuilder(context.getApplicationContext(), DataBase.class, "database-name")
                         .fallbackToDestructiveMigration()
-                        .allowMainThreadQueries()
                         .build();
             }
         }

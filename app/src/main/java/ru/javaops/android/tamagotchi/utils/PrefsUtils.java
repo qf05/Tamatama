@@ -34,7 +34,7 @@ public class PrefsUtils {
                 .apply();
     }
 
-    private static SharedPreferences getPreferences(Context context) {
+    public static SharedPreferences getPreferences(Context context) {
         return context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 }

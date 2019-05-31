@@ -1,6 +1,7 @@
 package ru.javaops.android.tamagotchi.viewmodel;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -18,10 +19,19 @@ public abstract class BasePetViewModel extends BaseViewModel {
     private LiveData<Pet> petData;
     private Observer<Pet> observer;
     private boolean findAny = false;
+    private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
 
     public BasePetViewModel(@NonNull Application application) {
         super(application);
         loadSelectedPet();
+        initPreferenceChangeListener();
+        PrefsUtils.getPreferences(application).registerOnSharedPreferenceChangeListener(preferenceChangeListener);
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        PrefsUtils.getPreferences(getApplication()).unregisterOnSharedPreferenceChangeListener(preferenceChangeListener);
     }
 
     @Override
@@ -88,5 +98,18 @@ public abstract class BasePetViewModel extends BaseViewModel {
             return;
         }
         notifyChange();
+    }
+
+    private SharedPreferences.OnSharedPreferenceChangeListener initPreferenceChangeListener() {
+        if (preferenceChangeListener == null) {
+            preferenceChangeListener =
+                    new SharedPreferences.OnSharedPreferenceChangeListener() {
+                        @Override
+                        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                            notifyChange();
+                        }
+                    };
+        }
+        return preferenceChangeListener;
     }
 }
