@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    app:cardBackgroundColor="@android:color/transparent"
+    card_view:cardCornerRadius="@dimen/card_radius_corner"
+    card_view:cardElevation="@dimen/card_elevation"
+    card_view:cardUseCompatPadding="true">
+
+    <ImageView
+        android:id="@+id/pet_icon"
+        android:layout_width="@dimen/pet_icon_size"
+        android:layout_height="@dimen/pet_icon_size"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/min_margin"
+        android:contentDescription="@string/pet_icon"
+        android:scaleType="fitCenter"
+        android:src="@drawable/dog_icon" />
+
+    <TextView
+        android:id="@+id/pet_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pet_icon"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginStart="@dimen/min_margin"
+        android:layout_marginTop="@dimen/pet_icon_size"
+        android:layout_marginEnd="@dimen/min_margin"
+        android:textColor="@color/black"
+        android:textSize="@dimen/main_txt_size" />
+
+</androidx.cardview.widget.CardView>

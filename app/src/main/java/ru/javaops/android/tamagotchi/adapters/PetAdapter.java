@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,29 +29,35 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
     private ItemClickListener clickListener;
     private List<Pet> pets;
     private SparseBooleanArray deleteMap = new SparseBooleanArray();
+    private int layout;
 
-    public PetAdapter(List<Pet> pets, ItemClickListener itemClickListener) {
-        CompareUtils.sort(pets, 0);
+    public PetAdapter(List<Pet> pets, ItemClickListener itemClickListener, @LayoutRes int layout) {
+        if (pets != null) {
+            CompareUtils.sort(pets, 0);
+        } else {
+            pets = new ArrayList<>();
+        }
         this.pets = pets;
         this.clickListener = itemClickListener;
+        this.layout = layout;
     }
 
     @NonNull
     @Override
     public PetViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_pet, null, false);
+                .inflate(layout, null, false);
         return new PetViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PetViewHolder holder, int position) {
         holder.petName.setText(pets.get(position).getName());
-        holder.petLvl.setText(String.format(Locale.getDefault(),
-                holder.itemView.getContext().getString(R.string.level_number),
-                pets.get(position).getLvl()));
         holder.petIcon.setImageResource(pets.get(position).getPetsType().getIconDrawableResource());
         if (clickListener == null) {
+            holder.petLvl.setText(String.format(Locale.getDefault(),
+                    holder.itemView.getContext().getString(R.string.level_number),
+                    pets.get(position).getLvl()));
             holder.checkBox.setVisibility(View.VISIBLE);
             holder.checkBox.setChecked(deleteMap.get(position, false));
         }
@@ -62,10 +69,12 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
     }
 
     public void updateData(List<Pet> pets, int spinnerPosition) {
-        CompareUtils.sort(pets, spinnerPosition);
         this.pets.clear();
-        this.pets.addAll(pets);
-        notifyDataSetChanged();
+        if (pets != null) {
+            this.pets.addAll(pets);
+            CompareUtils.sort(pets, spinnerPosition);
+            notifyDataSetChanged();
+        }
     }
 
     public List<Pet> getDeleteList() {

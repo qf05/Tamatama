@@ -7,13 +7,20 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 import ru.javaops.android.tamagotchi.R;
+import ru.javaops.android.tamagotchi.adapters.PetAdapter;
 import ru.javaops.android.tamagotchi.databinding.ActivityMainBinding;
+import ru.javaops.android.tamagotchi.model.Pet;
+import ru.javaops.android.tamagotchi.utils.PrefsUtils;
 import ru.javaops.android.tamagotchi.utils.SoundHelper;
+import ru.javaops.android.tamagotchi.utils.ViewHelper;
 import ru.javaops.android.tamagotchi.viewmodel.MainViewModel;
 
-public class MainActivity extends BasePetActivity {
+public class MainActivity extends BasePetActivity implements PetAdapter.ItemClickListener {
 
     private MainViewModel model;
     private MenuItem soundCheckbox;
@@ -27,6 +34,9 @@ public class MainActivity extends BasePetActivity {
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setLifecycleOwner(this);
         binding.setModel(model);
+        final RecyclerView rv = binding.changeRv;
+        ViewHelper.setParametersRv(this, rv, true);
+        rv.setAdapter(new PetAdapter(new ArrayList<Pet>(), this, R.layout.item_change_pet));
     }
 
     @Override
@@ -70,8 +80,9 @@ public class MainActivity extends BasePetActivity {
         model.notifyChange();
     }
 
-    public void onButtonClick(View view) {
-        Intent intent = new Intent(MainActivity.this, OtherActivity.class);
-        startActivity(intent);
+    @Override
+    public void onItemClick(long itemId) {
+        PrefsUtils.saveSelectedPetId(this, itemId);
+        model.notifyChange();
     }
 }

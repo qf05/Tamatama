@@ -19,7 +19,6 @@ import ru.javaops.android.tamagotchi.adapters.PetAdapter;
 import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.utils.CompareUtils;
-import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
 public class DeletePetActivity extends BaseActivity {
 
@@ -33,7 +32,7 @@ public class DeletePetActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_list);
         db = DataBase.getAppDatabase(DeletePetActivity.this);
-        pets = db.petDao().getAll();
+//        pets = db.petDao().getAll();
         initViews();
         initSpinner();
     }
@@ -60,8 +59,8 @@ public class DeletePetActivity extends BaseActivity {
                     final List<Pet> deleteList = adapter.getDeleteList();
                     db.petDao().delete(deleteList);
                     adapter.clearDeleteMap();
-                    List<Pet> petList = db.petDao().getAll();
-                    adapter.updateData(petList, sortSpinner.getSelectedItemPosition());
+//                    List<Pet> petList = db.petDao().getAll();
+//                    adapter.updateData(petList, sortSpinner.getSelectedItemPosition());
                     makeMessage(getResources().getQuantityString(R.plurals.was_delete_plurals,
                             deleteList.size(), deleteList.size()));
                     dialog.cancel();
@@ -85,8 +84,8 @@ public class DeletePetActivity extends BaseActivity {
         header.setText(R.string.delete_pet);
 
         final RecyclerView rv = findViewById(R.id.pets_rv);
-        ViewHelper.setParametersRv(DeletePetActivity.this, rv);
-        adapter = new PetAdapter(pets, null);
+//        ViewHelper.setParametersRv(DeletePetActivity.this, rv);
+//        adapter = new PetAdapter(pets, null);
         rv.setAdapter(adapter);
 
         sortSpinner = findViewById(R.id.spinner_sort);

@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Tamagotchi</string>
     <string name="background">background</string>
-    <string name="hello">Hello World!</string>
     <string name="to_home">to Home</string>
     <string name="cat">Cat</string>
     <string name="dog">Dog</string>
@@ -37,6 +36,7 @@
     <string name="delete_this_pets">Вы действительно хотите удалить выбранных питомцев?</string>
     <string name="delete">Удалить</string>
     <string name="lvl_up">lvl_up</string>
+    <string name="arrow">arrow indicator</string>
 
     <plurals name="was_delete_plurals">
         <item quantity="zero">Удалено %d питомцев</item>

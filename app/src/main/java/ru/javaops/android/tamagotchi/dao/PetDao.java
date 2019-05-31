@@ -14,7 +14,7 @@ import ru.javaops.android.tamagotchi.model.Pet;
 @Dao
 public interface PetDao {
     @Query("SELECT * FROM pet")
-    List<Pet> getAll();
+    LiveData<List<Pet>> getAll();
 
     @Query("SELECT * FROM pet WHERE id = :id")
     LiveData<Pet> findById(long id);

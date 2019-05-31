@@ -7,6 +7,8 @@
         <variable
             name="model"
             type="ru.javaops.android.tamagotchi.viewmodel.MainViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,17 +60,7 @@
             app:layout_constraintTop_toBottomOf="@+id/pet_name" />
 
         <Button
-            android:id="@+id/button_hello"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_margin="@dimen/main_margin"
-            android:onClick="onButtonClick"
-            android:text="@string/hello"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
+            android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
@@ -90,5 +82,46 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/view_pets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/main_margin"
+            android:layout_marginBottom="@dimen/indent_margin"
+            android:onClick="@{v->model.viewPets(changeRv)}"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent">
+
+            <ImageView
+                android:id="@+id/up_down"
+                android:layout_width="@dimen/arrow_size"
+                android:layout_height="@dimen/arrow_size"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/arrow"
+                android:rotation="@{model.viewYourPets?180:0}"
+                android:src="@drawable/arrow" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/arrow_size"
+                android:text="@string/pets"
+                android:textColor="@color/black"
+                android:textSize="@dimen/main_txt_size" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/change_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/min_margin"
+            android:visibility="@{model.viewYourPets?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toTopOf="@+id/view_pets"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:pets="@{model.petsData}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

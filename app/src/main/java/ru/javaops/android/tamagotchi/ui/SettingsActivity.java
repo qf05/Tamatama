@@ -41,8 +41,7 @@ public class SettingsActivity extends BasePetActivity {
     }
 
     public void changePet(View view) {
-        Intent intent = new Intent(SettingsActivity.this, ChangePetActivity.class);
-        startActivity(intent);
+
     }
 
     public void deletePet(View view) {

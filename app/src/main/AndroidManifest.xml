@@ -21,10 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.OtherActivity" />
         <activity android:name=".ui.WalkActivity" />
         <activity android:name=".ui.SettingsActivity" />
-        <activity android:name=".ui.ChangePetActivity" />
         <activity android:name=".ui.DeletePetActivity" />
     </application>
 

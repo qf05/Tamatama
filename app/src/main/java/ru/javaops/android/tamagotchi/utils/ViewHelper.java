@@ -44,9 +44,12 @@ public class ViewHelper {
         return (int) (px / Resources.getSystem().getDisplayMetrics().density);
     }
 
-    public static void setParametersRv(Context context, RecyclerView rv) {
+    public static void setParametersRv(Context context, RecyclerView rv, boolean horizontal) {
         rv.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(context);
+        if (horizontal) {
+            llm = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        }
         rv.setLayoutManager(llm);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rv.getContext(),
                 llm.getOrientation());
