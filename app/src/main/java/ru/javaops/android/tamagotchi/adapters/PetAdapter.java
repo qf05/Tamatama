@@ -4,19 +4,17 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import ru.javaops.android.tamagotchi.R;
+import ru.javaops.android.tamagotchi.BR;
 import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.utils.CompareUtils;
 
@@ -52,15 +50,8 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull PetViewHolder holder, int position) {
-        holder.petName.setText(pets.get(position).getName());
-        holder.petIcon.setImageResource(pets.get(position).getPetsType().getIconDrawableResource());
-        if (clickListener == null) {
-            holder.petLvl.setText(String.format(Locale.getDefault(),
-                    holder.itemView.getContext().getString(R.string.level_number),
-                    pets.get(position).getLvl()));
-            holder.checkBox.setVisibility(View.VISIBLE);
-            holder.checkBox.setChecked(deleteMap.get(position, false));
-        }
+        final Pet item = pets.get(position);
+        holder.getBinding().setVariable(BR.pet, item);
     }
 
     @Override
@@ -98,18 +89,16 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
     }
 
     class PetViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView petName;
-        TextView petLvl;
-        ImageView petIcon;
-        CheckBox checkBox;
+        private ViewDataBinding binding;
 
         PetViewHolder(View view) {
             super(view);
+            binding = DataBindingUtil.bind(view);
             view.setOnClickListener(this);
-            petName = view.findViewById(R.id.pet_name);
-            petLvl = view.findViewById(R.id.pet_lvl);
-            petIcon = view.findViewById(R.id.pet_icon);
-            checkBox = view.findViewById(R.id.checkbox_delete);
+        }
+
+        public ViewDataBinding getBinding() {
+            return binding;
         }
 
         @Override
