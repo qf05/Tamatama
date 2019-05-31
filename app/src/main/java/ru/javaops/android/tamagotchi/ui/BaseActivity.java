@@ -1,12 +1,11 @@
 package ru.javaops.android.tamagotchi.ui;
 
-import android.annotation.SuppressLint;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -14,14 +13,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         finish();
     }
 
-    @SuppressLint("ShowToast")
     public void makeMessage(int messageId) {
-        makeMessage(Toast.makeText(this, messageId, Toast.LENGTH_SHORT));
+        ViewHelper.makeMessage(this, messageId);
     }
 
-    @SuppressLint("ShowToast")
     public void makeMessage(String message) {
-        makeMessage(Toast.makeText(this, message, Toast.LENGTH_SHORT));
+        ViewHelper.makeMessage(this, message);
     }
 
     protected void initGoBackListener(ImageView view) {
@@ -31,10 +28,5 @@ public abstract class BaseActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    private void makeMessage(Toast toast) {
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
     }
 }

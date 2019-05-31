@@ -8,13 +8,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentManager;
 
 import ru.javaops.android.tamagotchi.R;
 import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.enums.NameCheckStatus;
 import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.utils.PetUtils;
-import ru.javaops.android.tamagotchi.utils.ViewHelper;
 
 public class SettingsActivity extends BasePetActivity {
 
@@ -37,7 +37,10 @@ public class SettingsActivity extends BasePetActivity {
     }
 
     public void createPet(View view) {
-        ViewHelper.showCreatePetDialog(this, true);
+        FragmentManager manager = getSupportFragmentManager();
+        CreatePetDialogFragment dialog = new CreatePetDialogFragment();
+        dialog.setCancelable(false);
+        dialog.show(manager, "dialogCreatePet");
     }
 
     public void changePet(View view) {
