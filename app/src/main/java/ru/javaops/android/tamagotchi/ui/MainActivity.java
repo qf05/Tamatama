@@ -22,6 +22,7 @@ public class MainActivity extends BasePetActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SoundHelper.initialSoundPool(getApplicationContext());
         model = createModel(MainViewModel.class);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setLifecycleOwner(this);
