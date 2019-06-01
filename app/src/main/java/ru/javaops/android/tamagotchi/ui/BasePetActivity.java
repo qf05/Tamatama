@@ -4,6 +4,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import ru.javaops.android.tamagotchi.ui.dialog.CreatePetDialogFragment;
 import ru.javaops.android.tamagotchi.viewmodel.BasePetViewModel;
 
 public abstract class BasePetActivity extends BaseActivity {

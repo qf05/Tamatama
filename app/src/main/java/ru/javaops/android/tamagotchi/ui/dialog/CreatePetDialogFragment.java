@@ -1,4 +1,4 @@
-package ru.javaops.android.tamagotchi.ui;
+package ru.javaops.android.tamagotchi.ui.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import java.util.Objects;
@@ -19,11 +18,12 @@ import ru.javaops.android.tamagotchi.R;
 import ru.javaops.android.tamagotchi.adapters.MySpinnerAdapter;
 import ru.javaops.android.tamagotchi.databinding.DialogCreatePetBinding;
 import ru.javaops.android.tamagotchi.enums.NameCheckStatus;
+import ru.javaops.android.tamagotchi.ui.SettingsActivity;
 import ru.javaops.android.tamagotchi.utils.PetUtils;
 import ru.javaops.android.tamagotchi.utils.ViewHelper;
 import ru.javaops.android.tamagotchi.viewmodel.CreatePetViewModel;
 
-public class CreatePetDialogFragment extends DialogFragment {
+public class CreatePetDialogFragment extends BaseDialogFragment {
 
     @NonNull
     @Override
@@ -61,15 +61,6 @@ public class CreatePetDialogFragment extends DialogFragment {
                     }
                     dismiss();
                 }
-            }
-        };
-    }
-
-    private View.OnClickListener initCancelClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
             }
         };
     }

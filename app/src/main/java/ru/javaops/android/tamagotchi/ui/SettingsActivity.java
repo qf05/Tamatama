@@ -1,11 +1,13 @@
 package ru.javaops.android.tamagotchi.ui;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
 
 import ru.javaops.android.tamagotchi.R;
 import ru.javaops.android.tamagotchi.databinding.ActivitySettingsBinding;
+import ru.javaops.android.tamagotchi.ui.dialog.ChangeNameDialogFragment;
 import ru.javaops.android.tamagotchi.viewmodel.SettingsViewModel;
 
 public class SettingsActivity extends BasePetActivity {
@@ -19,5 +21,17 @@ public class SettingsActivity extends BasePetActivity {
         binding.setLifecycleOwner(this);
         binding.setModel(model);
         initGoBackListener(binding.back);
+        changeNameListener(binding.changeName);
+    }
+
+    protected void changeNameListener(View view) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChangeNameDialogFragment dialog = new ChangeNameDialogFragment();
+                dialog.setCancelable(false);
+                dialog.show(getSupportFragmentManager(), "dialogChangeNamePet");
+            }
+        });
     }
 }

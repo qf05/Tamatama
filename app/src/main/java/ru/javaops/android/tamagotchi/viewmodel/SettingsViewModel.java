@@ -24,10 +24,6 @@ public class SettingsViewModel extends BasePetViewModel {
         getApplication().startActivity(intent);
     }
 
-    public void changePetName() {
-
-    }
-
     public void history() {
 
     }

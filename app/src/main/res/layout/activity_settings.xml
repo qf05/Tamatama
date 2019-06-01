@@ -117,12 +117,12 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
+            android:id="@+id/change_name"
             android:layout_width="@dimen/shell_btn_width"
             android:layout_height="@dimen/shell_btn_height"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="@dimen/settings_btn_bottom_margin"
             android:background="@drawable/button"
-            android:onClick="@{v->model.changePetName()}"
             android:text="@string/change_name"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/bookcase_shelf_02"
