@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -174,16 +175,18 @@
             android:layout_height="@dimen/shell_btn_height"
             android:layout_marginBottom="@dimen/settings_last_btn_bottom_margin"
             android:background="@drawable/button"
+            android:button="@drawable/checkbox_selector"
             android:checked="@{model.sound}"
-            android:gravity="center"
             android:onClick="@{v->model.sound()}"
+            android:paddingStart="@dimen/main_margin"
             android:text="@string/sound"
             android:textAllCaps="true"
             android:textSize="@dimen/medium_txt_size"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/bookcase_last_shelf"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="RtlSymmetry" />
 
         <ImageButton
             android:id="@+id/back"

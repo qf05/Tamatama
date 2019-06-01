@@ -59,6 +59,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/min_margin"
+                android:button="@drawable/checkbox_selector"
                 android:checked="@{isChecked}"
                 android:clickable="false" />
         </RelativeLayout>
