@@ -10,8 +10,10 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 
 import ru.javaops.android.tamagotchi.R;
+import ru.javaops.android.tamagotchi.databinding.ItemSpinnerBinding;
 import ru.javaops.android.tamagotchi.enums.PetsType;
 
 public class MySpinnerAdapter extends ArrayAdapter<String> {
@@ -41,14 +43,15 @@ public class MySpinnerAdapter extends ArrayAdapter<String> {
     private View getPetView(int position, ViewGroup parent, boolean isDrop) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_spinner, null, false);
-
-        TextView textView = view.findViewById(R.id.spinner_text);
-        textView.setText(items[position]);
-        if (isCreate) {
-            setImage(textView, position);
-        }
-        if (isDrop) {
-            setLayoutParams(textView);
+        ItemSpinnerBinding binding = DataBindingUtil.bind(view);
+        if (binding != null) {
+            binding.spinnerText.setText(items[position]);
+            if (isCreate) {
+                setImage(binding.spinnerText, position);
+            }
+            if (isDrop) {
+                setLayoutParams(binding.spinnerText);
+            }
         }
         return view;
     }
