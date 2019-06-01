@@ -26,7 +26,7 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
 
     private ItemClickListener clickListener;
     private List<Pet> pets;
-    private SparseBooleanArray deleteMap = new SparseBooleanArray();
+    private SparseBooleanArray deleteMap;
     private int layout;
 
     public PetAdapter(List<Pet> pets, ItemClickListener itemClickListener, @LayoutRes int layout) {
@@ -38,6 +38,7 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
         this.pets = pets;
         this.clickListener = itemClickListener;
         this.layout = layout;
+        deleteMap = new SparseBooleanArray();
     }
 
     @NonNull
@@ -52,6 +53,9 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
     public void onBindViewHolder(@NonNull PetViewHolder holder, int position) {
         final Pet item = pets.get(position);
         holder.getBinding().setVariable(BR.pet, item);
+        if (clickListener == null) {
+            holder.getBinding().setVariable(BR.isChecked, deleteMap.get(position, false));
+        }
     }
 
     @Override
@@ -63,9 +67,13 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
         this.pets.clear();
         if (pets != null) {
             this.pets.addAll(pets);
-            CompareUtils.sort(pets, spinnerPosition);
-            notifyDataSetChanged();
+            sortData(spinnerPosition);
         }
+    }
+
+    public void sortData(int spinnerPosition) {
+        CompareUtils.sort(pets, spinnerPosition);
+        notifyDataSetChanged();
     }
 
     public List<Pet> getDeleteList() {

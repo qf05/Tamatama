@@ -1,85 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <ImageView
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="ru.javaops.android.tamagotchi.viewmodel.DeletePetViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_above="@+id/list_footer_image"
-        android:layout_below="@+id/list_header_image"
-        android:contentDescription="@string/background"
-        android:scaleType="centerCrop"
-        android:src="@drawable/tv_display" />
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/list_header_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:contentDescription="@string/background"
-        android:scaleType="centerCrop"
-        android:src="@drawable/tv_header" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_above="@+id/list_footer_image"
+            android:layout_below="@+id/list_header_image"
+            android:contentDescription="@string/background"
+            android:scaleType="centerCrop"
+            android:src="@drawable/tv_display" />
 
-    <TextView
-        android:id="@+id/list_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/list_header_image"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/min_margin"
-        android:gravity="center"
-        android:text="@string/pets_input"
-        android:textColor="@color/black"
-        android:textSize="@dimen/title_txt_size" />
+        <ImageView
+            android:id="@+id/list_header_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/background"
+            android:scaleType="centerCrop"
+            android:src="@drawable/tv_header" />
 
-    <TextView
-        android:id="@+id/label_list_sort"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/list_header"
-        android:layout_marginStart="@dimen/main_margin"
-        android:layout_marginBottom="@dimen/indent_margin"
-        android:text="@string/sort_on"
-        android:textColor="@color/black"
-        android:textSize="@dimen/main_txt_size" />
+        <TextView
+            android:id="@+id/list_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/list_header_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/min_margin"
+            android:gravity="center"
+            android:text="@string/pets_input"
+            android:textColor="@color/black"
+            android:textSize="@dimen/title_txt_size" />
 
-    <Spinner
-        android:id="@+id/spinner_sort"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/list_header"
-        android:layout_marginStart="@dimen/indent_margin"
-        android:layout_toEndOf="@+id/label_list_sort"
-        android:entries="@array/sort" />
+        <TextView
+            android:id="@+id/label_list_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/list_header"
+            android:layout_marginStart="@dimen/main_margin"
+            android:layout_marginBottom="@dimen/indent_margin"
+            android:text="@string/sort_on"
+            android:textColor="@color/black"
+            android:textSize="@dimen/main_txt_size" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pets_rv"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_above="@+id/list_footer_image"
-        android:layout_below="@+id/label_list_sort"
-        android:layout_marginStart="@dimen/main_margin"
-        android:layout_marginEnd="@dimen/main_margin"
-        android:layout_marginBottom="@dimen/min_margin" />
+        <Spinner
+            android:id="@+id/spinner_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/list_header"
+            android:layout_marginStart="@dimen/indent_margin"
+            android:layout_toEndOf="@+id/label_list_sort"
+            android:entries="@array/sort"
+            android:onItemSelected="@{(parent, v, pos, id)->model.sortPets(pos)}" />
 
-    <ImageView
-        android:id="@+id/list_footer_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:contentDescription="@string/background"
-        android:scaleType="centerCrop"
-        android:src="@drawable/tv_footer" />
 
-    <ImageButton
-        android:id="@+id/back"
-        android:layout_width="@dimen/round_btn_size"
-        android:layout_height="@dimen/round_btn_size"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/min_margin"
-        android:layout_marginBottom="@dimen/min_margin"
-        android:background="@drawable/back"
-        android:contentDescription="@string/back"
-        android:onClick="goBack" />
-</RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pets_rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_above="@+id/list_footer_image"
+            android:layout_below="@+id/label_list_sort"
+            android:layout_marginStart="@dimen/main_margin"
+            android:layout_marginEnd="@dimen/main_margin"
+            android:layout_marginBottom="@dimen/min_margin"
+            app:pets="@{model.petsData}"
+            app:spinner="@{spinnerSort}" />
+
+        <ImageView
+            android:id="@+id/list_footer_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:contentDescription="@string/background"
+            android:scaleType="centerCrop"
+            android:src="@drawable/tv_footer" />
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="@dimen/round_btn_size"
+            android:layout_height="@dimen/round_btn_size"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/min_margin"
+            android:layout_marginBottom="@dimen/min_margin"
+            android:background="@drawable/back"
+            android:contentDescription="@string/back"
+            android:onClick="goBack" />
+
+        <ImageButton
+            android:id="@+id/delete"
+            android:layout_width="@dimen/round_btn_size"
+            android:layout_height="@dimen/round_btn_size"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/min_margin"
+            android:layout_marginBottom="@dimen/min_margin"
+            android:background="@drawable/del"
+            android:contentDescription="@string/back" />
+    </RelativeLayout>
+</layout>

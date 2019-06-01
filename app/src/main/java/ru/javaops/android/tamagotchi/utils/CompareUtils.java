@@ -1,13 +1,9 @@
 package ru.javaops.android.tamagotchi.utils;
 
-import android.view.View;
-import android.widget.AdapterView;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import ru.javaops.android.tamagotchi.adapters.PetAdapter;
 import ru.javaops.android.tamagotchi.model.Pet;
 
 public class CompareUtils {
@@ -41,20 +37,5 @@ public class CompareUtils {
             default:
                 Collections.sort(pets, NAME_COMPARATOR);
         }
-    }
-
-    public static AdapterView.OnItemSelectedListener getSpinnerClickListener(final PetAdapter adapter,
-                                                                             final List<Pet> pets) {
-        return new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                CompareUtils.sort(pets, position);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        };
     }
 }

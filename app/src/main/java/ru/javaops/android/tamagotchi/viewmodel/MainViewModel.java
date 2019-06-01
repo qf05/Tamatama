@@ -11,16 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.BindingAdapter;
 import androidx.lifecycle.LiveData;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import ru.javaops.android.tamagotchi.R;
-import ru.javaops.android.tamagotchi.adapters.PetAdapter;
 import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.ui.SettingsActivity;
 import ru.javaops.android.tamagotchi.ui.WalkActivity;
@@ -34,11 +30,6 @@ public class MainViewModel extends BasePetViewModel {
     public MainViewModel(@NonNull Application application) {
         super(application);
         petsData = getDb().petDao().getAll();
-    }
-
-    @BindingAdapter("app:pets")
-    public static void setPets(RecyclerView recyclerView, List<Pet> pets) {
-        ((PetAdapter) Objects.requireNonNull(recyclerView.getAdapter())).updateData(pets, 0);
     }
 
     public void viewPets(final View rv) {
