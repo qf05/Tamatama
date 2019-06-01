@@ -4,14 +4,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import ru.javaops.android.tamagotchi.model.Pet;
 import ru.javaops.android.tamagotchi.viewmodel.BasePetViewModel;
 
 public abstract class BasePetActivity extends BaseActivity {
-
-    public Pet getPet() {
-        return null;
-    }
 
     protected <T extends BasePetViewModel> T createModel(Class<T> modelClass) {
         T model = ViewModelProviders.of(this).get(modelClass);

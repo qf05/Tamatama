@@ -1,8 +1,8 @@
 <resources>
     <dimen name="main_margin">20dp</dimen>
     <dimen name="min_margin">4dp</dimen>
-    <dimen name="settings_btn_bottom_margin">20dp</dimen>
-    <dimen name="settings_last_btn_bottom_margin">16dp</dimen>
+    <dimen name="settings_btn_bottom_margin">12dp</dimen>
+    <dimen name="settings_last_btn_bottom_margin">10dp</dimen>
     <dimen name="round_action_btn_margin">16dp</dimen>
     <dimen name="indent_margin">12dp</dimen>
 
@@ -10,6 +10,7 @@
     <dimen name="title_hello_other">40sp</dimen>
     <dimen name="title_txt_size">30sp</dimen>
     <dimen name="main_txt_size">20sp</dimen>
+    <dimen name="medium_txt_size">14sp</dimen>
 
     <dimen name="round_btn_size">50dp</dimen>
     <dimen name="pet_size">70dp</dimen>
