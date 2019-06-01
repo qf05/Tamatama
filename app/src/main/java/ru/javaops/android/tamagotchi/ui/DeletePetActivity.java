@@ -1,9 +1,7 @@
 package ru.javaops.android.tamagotchi.ui;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
@@ -20,11 +18,12 @@ import ru.javaops.android.tamagotchi.adapters.PetAdapter;
 import ru.javaops.android.tamagotchi.databinding.ActivityPetListBinding;
 import ru.javaops.android.tamagotchi.db.DataBase;
 import ru.javaops.android.tamagotchi.model.Pet;
+import ru.javaops.android.tamagotchi.ui.dialog.DeletePetDialogFragment;
 import ru.javaops.android.tamagotchi.utils.ExecutorUtils;
 import ru.javaops.android.tamagotchi.utils.ViewHelper;
 import ru.javaops.android.tamagotchi.viewmodel.DeletePetViewModel;
 
-public class DeletePetActivity extends BaseActivity {
+public class DeletePetActivity extends BaseActivity implements DeletePetDialogFragment.DeletePets {
 
     private Spinner sortSpinner;
     private PetAdapter adapter;
@@ -50,6 +49,25 @@ public class DeletePetActivity extends BaseActivity {
         initSpinner();
     }
 
+    @Override
+    public void deletePets() {
+        final List<Pet> deleteList = adapter.getDeleteList();
+        ExecutorUtils.getExecutor().submit(new Runnable() {
+            @Override
+            public void run() {
+                adapter.clearDeleteMap();
+                db.petDao().delete(deleteList);
+                DeletePetActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        makeMessage(getResources().getQuantityString(R.plurals.was_delete_plurals,
+                                deleteList.size(), deleteList.size()));
+                    }
+                });
+            }
+        });
+    }
+
     private Observer<List<Pet>> getPetsObserver() {
         return new Observer<List<Pet>>() {
             @Override
@@ -63,41 +81,9 @@ public class DeletePetActivity extends BaseActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final View layout = getLayoutInflater().inflate(R.layout.dialog_delete, null);
-                final Button ok = layout.findViewById(R.id.ok_delete);
-                final Button cancel = layout.findViewById(R.id.cancel_delete);
-                final AlertDialog dialog = new AlertDialog.Builder(DeletePetActivity.this)
-                        .setView(layout)
-                        .setCancelable(false)
-                        .create();
-                ok.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final List<Pet> deleteList = adapter.getDeleteList();
-                        ExecutorUtils.getExecutor().submit(new Runnable() {
-                            @Override
-                            public void run() {
-                                adapter.clearDeleteMap();
-                                db.petDao().delete(deleteList);
-                                DeletePetActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        makeMessage(getResources().getQuantityString(R.plurals.was_delete_plurals,
-                                                deleteList.size(), deleteList.size()));
-                                    }
-                                });
-                            }
-                        });
-                        dialog.cancel();
-                    }
-                });
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.cancel();
-                    }
-                });
-                dialog.show();
+                DeletePetDialogFragment dialog = new DeletePetDialogFragment();
+                dialog.setCancelable(false);
+                dialog.show(getSupportFragmentManager(), "dialogDeletePet");
             }
         };
     }
