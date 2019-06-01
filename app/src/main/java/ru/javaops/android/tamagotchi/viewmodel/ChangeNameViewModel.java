@@ -1,12 +1,14 @@
 package ru.javaops.android.tamagotchi.viewmodel;
 
 import android.app.Application;
+import android.text.Html;
+import android.text.Spanned;
 
 import androidx.annotation.NonNull;
 
-import java.util.Locale;
-
 import ru.javaops.android.tamagotchi.R;
+
+import static androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY;
 
 public class ChangeNameViewModel extends BasePetViewModel {
 
@@ -20,12 +22,16 @@ public class ChangeNameViewModel extends BasePetViewModel {
         newName = s.toString();
     }
 
-    public String getThisName() {
+    public Spanned getThisName() {
         if (getPetData().getValue() != null) {
-            return String.format(Locale.getDefault(),
-                    getApplication().getString(R.string.this_name), getPetData().getValue().getName());
+            String text = getApplication().getString(R.string.this_name, getPetData().getValue().getName());
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                return Html.fromHtml(text, FROM_HTML_MODE_LEGACY);
+            } else {
+                return Html.fromHtml(text);
+            }
         }
-        return "";
+        return null;
     }
 
     public String getNewName() {
